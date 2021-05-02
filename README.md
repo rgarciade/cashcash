@@ -1,4 +1,4 @@
-lanzar serve php artisan --host=localhost --port=8000
+lanzar serve php artisan serve --host=localhost --port=8000
 
 docker
 - cd docker-compose
