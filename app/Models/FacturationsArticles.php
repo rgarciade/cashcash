@@ -10,14 +10,14 @@ class FacturationsArticles extends Model
     use HasFactory;
 
     protected $fillable = [
-        'facturation_id',
+        'facturations_id',
         'creation_date',
         'articleId',
         'description',
         'article_price',
         'units'
     ];
-    public function facturation(){
+    public function facturations(){
         return $this->belongsTo(Facturations::class);
     }
 

@@ -16,7 +16,7 @@ class FacturaionArticlesTable extends Migration
         Schema::create('facturations_articles', function (Blueprint $table) {
 
             $table->id();
-            $table->bigInteger('facturation_id')->default(0)->unsigned();
+            $table->bigInteger('facturations_id')->default(0)->unsigned();
             $table->dateTime('creation_date')->default(now('Europe/Madrid'));
             $table->bigInteger('articleId')->nullable(false)->unsigned();
             $table->string('description')->default('');

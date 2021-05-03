@@ -21,4 +21,7 @@ class Facturations extends Model
     public function company(){
         return $this->belongsTo(Companys::class);
     }
+    public function articles(){
+        return $this->hasMany(FacturationsArticles::class);
+    }
 }

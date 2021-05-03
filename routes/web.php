@@ -21,10 +21,15 @@ Route::get('/', function () {
     try {
 
         //dd(Articles::where('productid',12317)->get());
-        $contact = FacturationsArticles::where('facturation_id',1);
-
-        $contact->company;
+        /* funciona
+        $contact = FacturationsArticles::where('facturations_id',1)->firstOrFail();
+        $contact->facturations->company;
         dd($contact);
+        */
+        $facturation = Facturations::where('id',1)->firstOrFail();
+        $facturation->company;
+        $facturation->articles;
+        dd($facturation);
         dd('holii');
     } catch (\Exception $e) {
         dd("Could not connect to the database.  Please check your configuration. error:" . $e );
