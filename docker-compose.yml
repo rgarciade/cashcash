@@ -1,19 +1,5 @@
 version: "3.7"
 services:
-  appcash:
-    build:
-      args:
-        user: sammy
-        uid: 1000
-      context: ./
-      dockerfile: Dockerfile
-    image: cashserver
-    restart: unless-stopped
-    working_dir: /var/www/
-    volumes:
-      - ./:/var/www
-    networks:
-      - cashnetwork
   appcashDebugg:
     build:
       args:
@@ -59,7 +45,7 @@ services:
       - ./nginx:/etc/nginx/conf.d
     depends_on:
       - dbcash
-      - appcash
+      - appcashDebugg
     networks:
       - cashnetwork
 networks:

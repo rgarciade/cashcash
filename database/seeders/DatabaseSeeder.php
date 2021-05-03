@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use ArticlesTable;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,6 +14,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        $this->call(ArticlesTableSeeder::class);
+        $this->call(CompanysTableSeeder::class);
+        $this->call(ConfigurationTableSeeder::class);
+        $this->call(ContactTableSeeder::class);
+        $this->call(FacturationsTableSeeder::class);
+        $this->call(FacturationsArticlesTableSeeder::class);
     }
 }
