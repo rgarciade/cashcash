@@ -2,6 +2,7 @@
 
 use App\Models\Articles;
 use App\Models\Contacts;
+use App\Models\Sales;
 use App\Models\Facturations;
 use App\Models\FacturationsArticles;
 use Illuminate\Support\Facades\Route;
@@ -26,10 +27,16 @@ Route::get('/', function () {
         $contact->facturations->company;
         dd($contact);
         */
+        /*
         $facturation = Facturations::where('id',1)->firstOrFail();
         $facturation->company;
         $facturation->articles;
-        dd($facturation);
+        echo json_encode($facturation);
+        */
+        $sale = Sales::where('id',1)->firstOrFail();
+        $sale->articles;
+        echo json_encode($sale);
+        die;
         dd('holii');
     } catch (\Exception $e) {
         dd("Could not connect to the database.  Please check your configuration. error:" . $e );

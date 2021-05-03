@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\FacturationsArticles;
+use App\Models\SalesArticles;
 use Illuminate\Database\Seeder;
 
-class FacturationsArticlesTableSeeder extends Seeder
+class SalesArticlesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,26 +14,25 @@ class FacturationsArticlesTableSeeder extends Seeder
      */
     public function run()
     {
+        SalesArticles::truncate();
 
-        FacturationsArticles::truncate();
-
-        FacturationsArticles::insert([
+        SalesArticles::insert([
             [
-                'facturations_id' => 1,
+                'sales_id' => 1,
                 'articleId' => 1,
                 'description' => 'raton',
                 'article_price' => 22.4,
                 'units' => 1
             ],
             [
-                'facturations_id' => 2,
+                'sales_id' => 2,
                 'articleId' => 2,
                 'description' => 'teclado',
                 'article_price' => 44.1,
                 'units' => 2
             ],
             [
-                'facturations_id' => 1,
+                'sales_id' => 1,
                 'articleId' => 3,
                 'description' => 'pantalla',
                 'article_price' => 55.6,
