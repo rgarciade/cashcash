@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class FacturationsArticles extends Model
 {
     use HasFactory;
-
+    public $timestamps = false;
     protected $fillable = [
         'facturations_id',
         'creation_date',

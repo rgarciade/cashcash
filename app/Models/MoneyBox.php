@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class MoneyBox extends Model
 {
     use HasFactory;
+    public $timestamps = false;
     protected $fillable = [
         'creation_date',
         'money',

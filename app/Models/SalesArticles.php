@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class SalesArticles extends Model
 {
     use HasFactory;
+    public $timestamps = false;
     protected $fillable = [
         'sales_id',
         'creation_date',
