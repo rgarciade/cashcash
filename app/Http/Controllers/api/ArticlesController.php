@@ -29,9 +29,9 @@ class ArticlesController extends ApiResponseController {
                 'public_price' => $req->public_price
             ]);
         } catch (\Throwable $th) {
-            return $this->errorResponse('sql insert Error, chech values');
+            return $this->errorResponse(null,500,'sql insert Error, chech values');
         }
-        if(!$article) $this->errorResponse('sql insert Error, chech values');
+        if(!$article) $this->errorResponse(null,500,'sql insert Error, chech values');
         return $this->successResponse(null,null,'articulo insertado correctamente');
     }
     public function updateArticle(Request $request, Articles $article){
@@ -42,6 +42,26 @@ class ArticlesController extends ApiResponseController {
 
         $article->update($request->all());
         return $this->successResponse(null,null,'update article');
+    }
+    public function deleteArticleFromProductId($pId){
+        try {
+            $article = Articles::where('productid',$pId)->firstOrFail();;
+            $article->delete();
+        } catch (\Throwable $th) {
+            return $this->errorResponse(null,500,'sql delete Error, chech ProductId');
+        }
+        return $this->successResponse(null,null,'articulo borrado correctamente');
+    }
+    public function deleteArticleFromId($id){
+        try {
+            //check exist
+            $article = Articles::where('id',$id)->firstOrFail();
+            //delete
+            $article->delete();
+        } catch (\Throwable $th) {
+            return $this->errorResponse(null,500,'sql delete Error, chech id');
+        }
+        return $this->successResponse(null,null,'articulo borrado correctamente');
     }
 
     //TODO::creear metodo para el delete

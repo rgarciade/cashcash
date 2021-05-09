@@ -32,3 +32,5 @@ Route::post('articles/{id}', function(Request $request, $id) {
     $articlesController = new ArticlesController();
     return $articlesController->updateArticle($request,Articles::where('id',$id)->firstOrFail());
 });
+Route::delete('articles/delete_from_productid/{id}', [ArticlesController::class, 'deleteArticleFromProductId']);
+Route::delete('articles/delete_from_id/{id}', [ArticlesController::class, 'deleteArticleFromId']);
