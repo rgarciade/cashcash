@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\api\ArticlesController;
+use App\Http\Requests\UpdateArticlesRequest;
 use App\Models\Articles;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -27,6 +28,7 @@ Route::post('articles', [ArticlesController::class, 'newArticle']);
 //Route::post('articles/{id}', [ArticlesController::class, 'updateArticle']);
 
 Route::post('articles/{id}', function(Request $request, $id) {
+ //   dd($request);
     $articlesController = new ArticlesController();
     return $articlesController->updateArticle($request,Articles::where('id',$id)->firstOrFail());
 });
