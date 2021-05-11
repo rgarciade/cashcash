@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\DB;
 */
 
 Route::get('/', function () {
-    try {
+   /* try {
 
         //dd(Articles::where('productid',12317)->get());
         /* funciona
@@ -32,7 +32,7 @@ Route::get('/', function () {
         $facturation->company;
         $facturation->articles;
         echo json_encode($facturation);
-        */
+
         $sale = Sales::where('id',1)->firstOrFail();
         $sale->articles;
         echo json_encode($sale);
@@ -40,6 +40,6 @@ Route::get('/', function () {
         dd('holii');
     } catch (\Exception $e) {
         dd("Could not connect to the database.  Please check your configuration. error:" . $e );
-    }
+    }*/
     return view('welcome');
 });

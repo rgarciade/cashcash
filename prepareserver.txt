@@ -1,5 +1,5 @@
 lanzar server    php artisan serve --host=localhost --port=8000
-
+lanzar tests     php artisan test tests
 docker
 - cd docker-compose
 
