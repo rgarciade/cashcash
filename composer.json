@@ -44,7 +44,7 @@
             "@php artisan key:generate --ansi"
         ],
         "runtest": [
-            "@php artisan php test tests"
+            "@php artisan test tests --coverage-text"
         ]
     },
     "extra": {

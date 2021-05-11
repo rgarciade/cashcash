@@ -8,7 +8,7 @@
                 "productid": "1231",
                 "public_price": 44,
                 "purchase_price": 22,
-                "units": 12
+                "units": 2
             },
             {
                 "description": "raton",
@@ -57,14 +57,6 @@
                 "public_price": 34,
                 "purchase_price": 13,
                 "units": 42
-            },
-            {
-                "description": "art\u00edculo nuevo",
-                "id": 11,
-                "productid": "123141",
-                "public_price": 20,
-                "purchase_price": 10,
-                "units": 12
             }
         ],
         "first_page_url": "http:\/\/cashcash.test\/api\/articles?page=1",
@@ -92,8 +84,8 @@
         "path": "http:\/\/cashcash.test\/api\/articles",
         "per_page": 20,
         "prev_page_url": null,
-        "to": 8,
-        "total": 8
+        "to": 7,
+        "total": 7
     },
     "msg": ""
 }
