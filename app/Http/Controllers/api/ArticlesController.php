@@ -13,7 +13,12 @@ class ArticlesController extends ApiResponseController {
         return $this->successResponse(Articles::paginate(20),200);
     }
     public function getArticle($id){
-        return $this->successResponse(Articles::where('id',$id)->firstOrFail());
+
+        $article = Articles::where('id',$id)->get();
+        if(count($article) == 0){
+            return $this->errorResponse('',500,"article don't exist");
+        }
+        return $this->successResponse($article[0],200);
     }
     public function newArticle(Request $req){
 
@@ -39,13 +44,20 @@ class ArticlesController extends ApiResponseController {
 
         $validator = Articlesvalidators::verifyUpdateArticles($request);
         if ($validator->fails()) return $this->errorResponse($validator->errors()->messages(),500,'error when update article');
+        try {
+            $article->update($request->all());
+            if(!count($article->getChanges()))  return $this->errorResponse('',500,"not data not updated");
+        }
+        catch (\Throwable $th) {
+            return $this->errorResponse('',500,"error where update article");
+        }
 
-        $article->update($request->all());
+
         return $this->successResponse(null,null,'update article');
     }
     public function deleteArticleFromProductId($pId){
         try {
-            $article = Articles::where('productid',$pId)->firstOrFail();;
+            $article = Articles::where('productid',$pId)->firstOrFail();
             $article->delete();
         } catch (\Throwable $th) {
             return $this->errorResponse(null,500,'sql delete Error, chech ProductId');

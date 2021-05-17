@@ -25,10 +25,8 @@ Route::middleware('auth:api')->get('/facturation/{id}', function (Request $reque
 Route::get('articles/{id}', [ArticlesController::class, 'getArticle']);
 Route::get('articles', [ArticlesController::class, 'allArticles']);
 Route::post('articles', [ArticlesController::class, 'newArticle']);
-//Route::post('articles/{id}', [ArticlesController::class, 'updateArticle']);
 
 Route::post('articles/{id}', function(Request $request, $id) {
- //   dd($request);
     $articlesController = new ArticlesController();
     return $articlesController->updateArticle($request,Articles::where('id',$id)->firstOrFail());
 });

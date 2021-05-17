@@ -19,6 +19,6 @@ class ApiResponseController extends Controller {
         return response()->json($response);
     }
     public function errorResponse($data,$code = 500,$msg=''){
-        return response()->json(["data"=>$data,"coce"=>$code,"msg" =>$msg]);
+        return response()->json(["data"=>$data,"code"=>$code,"msg" =>$msg]);
     }
 }
