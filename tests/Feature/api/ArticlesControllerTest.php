@@ -140,7 +140,7 @@ class ArticlesControllerTest extends TestCase{
     /**
      * @test
     */
-    public function post_update_article_json(){
+    public function path_update_article_json(){
         DB::beginTransaction();
         $response = $this->patch('/api/articles/1',[
             "description"=>"pantalla",
@@ -158,7 +158,7 @@ class ArticlesControllerTest extends TestCase{
     /**
      * @test
     */
-    public function post_update_article_json_error(){
+    public function path_update_article_json_error(){
         $articleId = 1;
         $responseUpdateFirst = $this->patch("/api/articles/{$articleId}",[]);
         $responseUpdateSecond = $this->patch("/api/articles/{$articleId}",[
@@ -186,7 +186,7 @@ class ArticlesControllerTest extends TestCase{
      /**
      * @test
     */
-    public function post_delete_article_from_producid_json(){
+    public function delete_article_from_producid_json(){
         DB::beginTransaction();
         $productid = 1231;
         $this->assertEquals(1,count(Articles::where('productid',$productid)->get()));
@@ -204,7 +204,7 @@ class ArticlesControllerTest extends TestCase{
     /**
      * @test
     */
-    public function post_delete_article_from_id_json(){
+    public function delete_article_from_id_json(){
         DB::beginTransaction();
         $id = 1;
         $this->assertEquals(1,count(Articles::where('id',$id)->get()));
@@ -222,7 +222,7 @@ class ArticlesControllerTest extends TestCase{
     /**
      * @test
     */
-    public function post_delete_article_from_id_json_error(){
+    public function delete_article_from_id_json_error(){
         $id = 123141235;
         $this->assertEquals(0,count(Articles::where('id',$id)->get()));
         $responseDeleteFirst = $this->delete("/api/articles/{$id}");
