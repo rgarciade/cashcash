@@ -22,13 +22,13 @@ Route::middleware('auth:api')->get('/facturation/{id}', function (Request $reque
 });
 */
 
-Route::get('articles/{id}', [ArticlesController::class, 'getArticle']);
 Route::get('articles', [ArticlesController::class, 'allArticles']);
+Route::get('articles/{id}', [ArticlesController::class, 'getArticle']);
 Route::post('articles', [ArticlesController::class, 'newArticle']);
-
-Route::post('articles/{id}', function(Request $request, $id) {
+Route::match(array('PUT', 'PATCH'), "articles/{id}", function(Request $request, $id){
     $articlesController = new ArticlesController();
-    return $articlesController->updateArticle($request,Articles::where('id',$id)->firstOrFail());
+    return $articlesController->updateArticle($request,$id);
 });
+
+Route::delete('articles/{id}', [ArticlesController::class, 'deleteArticleFromId']);
 Route::delete('articles/delete_from_productid/{id}', [ArticlesController::class, 'deleteArticleFromProductId']);
-Route::delete('articles/delete_from_id/{id}', [ArticlesController::class, 'deleteArticleFromId']);

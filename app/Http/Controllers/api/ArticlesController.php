@@ -39,14 +39,14 @@ class ArticlesController extends ApiResponseController {
         if(!$article) $this->errorResponse(null,500,'sql insert Error, chech values');
         return $this->successResponse(null,null,'articulo insertado correctamente');
     }
-    public function updateArticle(Request $request, Articles $article){
-
-
-        $validator = Articlesvalidators::verifyUpdateArticles($request);
-        if ($validator->fails()) return $this->errorResponse($validator->errors()->messages(),500,'error when update article');
+    public function updateArticle(Request $request, $articleID){
         try {
+            $article = Articles::where('id',$articleID)->firstOrFail();
+            $validator = Articlesvalidators::verifyUpdateArticles($request);
+            if ($validator->fails()) return $this->errorResponse($validator->errors()->messages(),500,'error when update article');
+
             $article->update($request->all());
-            if(!count($article->getChanges()))  return $this->errorResponse('',500,"not data not updated");
+            if(!count($article->getChanges()))  return $this->errorResponse('',500,"any data to update");
         }
         catch (\Throwable $th) {
             return $this->errorResponse('',500,"error where update article");

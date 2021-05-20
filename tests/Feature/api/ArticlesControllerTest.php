@@ -142,7 +142,7 @@ class ArticlesControllerTest extends TestCase{
     */
     public function post_update_article_json(){
         DB::beginTransaction();
-        $response = $this->post('/api/articles/1',[
+        $response = $this->patch('/api/articles/1',[
             "description"=>"pantalla",
             "units"=>12
         ]);
@@ -160,8 +160,8 @@ class ArticlesControllerTest extends TestCase{
     */
     public function post_update_article_json_error(){
         $articleId = 1;
-        $responseUpdateFirst = $this->post("/api/articles/{$articleId}",[]);
-        $responseUpdateSecond = $this->post("/api/articles/{$articleId}",[
+        $responseUpdateFirst = $this->patch("/api/articles/{$articleId}",[]);
+        $responseUpdateSecond = $this->patch("/api/articles/{$articleId}",[
             "description"=>"pantalla",
             "units"=>"eee"
         ]);
@@ -170,11 +170,10 @@ class ArticlesControllerTest extends TestCase{
             $json->has('msg')
             ->has('data')
             ->has('code')
-            ->where('msg',"not data not updated")
+            ->where('msg',"any data to update")
             ->where('code',500)
             ->where('data',"");
         });
-
         $responseUpdateSecond->assertJson(function (AssertableJson $json) {
             $json->has('msg')
             ->has('data')
@@ -209,7 +208,7 @@ class ArticlesControllerTest extends TestCase{
         DB::beginTransaction();
         $id = 1;
         $this->assertEquals(1,count(Articles::where('id',$id)->get()));
-        $responseDelete = $this->delete("/api/articles/delete_from_id/{$id}");
+        $responseDelete = $this->delete("/api/articles/{$id}");
         $responseDelete->assertJson(function (AssertableJson $json) {
             $json->has('msg')
             ->has('code')
@@ -226,7 +225,7 @@ class ArticlesControllerTest extends TestCase{
     public function post_delete_article_from_id_json_error(){
         $id = 123141235;
         $this->assertEquals(0,count(Articles::where('id',$id)->get()));
-        $responseDeleteFirst = $this->delete("/api/articles/delete_from_id/{$id}");
+        $responseDeleteFirst = $this->delete("/api/articles/{$id}");
         $responseDeleteSecond = $this->delete("/api/articles/delete_from_productid/${id}");
         $responseDeleteFirst->assertJson(function (AssertableJson $json) {
             $json->has('msg')
