@@ -75,6 +75,4 @@ class ArticlesController extends ApiResponseController {
         }
         return $this->successResponse(null,null,'articulo borrado correctamente');
     }
-
-    //TODO::creear metodo para el delete
 }

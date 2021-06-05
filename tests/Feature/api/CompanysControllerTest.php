@@ -2,17 +2,27 @@
 
 namespace Tests\Feature\api;
 
+use App\Http\Controllers\api\ArticlesController;
+use App\Http\Controllers\api\CompanysController;
 use App\Models\Companys;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
 
 class CompanysControllerTest extends TestCase {
+    use DatabaseMigrations;
+
+    public function setUp(): void{
+        parent::setUp();
+        $this->seed();
+    }
     /**
      * @test
      */
     public function get_companys_status200(){
         $response = $this->get('/api/companys');
+
         $response->assertStatus(200);
     }
     /**
@@ -31,32 +41,41 @@ class CompanysControllerTest extends TestCase {
      * @test
     */
     public function get_company_json(){
-        $response = $this->get('/api/company/1');
+        $response = $this->get('/api/companys/3');
         $response->assertJson(function (AssertableJson $json) {
             $json->has('msg')
             ->where('msg',"")
             ->has('data', function ($json) {
-                $json->where('id', 1)
-                ->where('cif','')
-                ->where('name','')
-                ->where('contact','')
-                ->where('location','')
-                ->where('telephone','')
-                ->where('email','')
-                ->where('street','')
-                ->where('city','')
-                ->where('province','')
-                ->where('cta','')
-                ->where('state','')
-                ->where('postalcode','')
-                ->where('banck','')
-                ->where('mobile','')
-                ->where('notas','');
+                $json->where('id', 3)
+                ->where('cif','33619622t')
+                ->where('name','LA Empresa')
+                ->where('contact','jose')
+                ->where('location','ggg')
+                ->where('telephone','656511156')
+                ->where('email','eso@mm.com')
+                ->where('street','calleee1')
+                ->where('city','madrid')
+                ->where('province','madrid')
+                ->where('cta',null)
+                ->where('state','madrid')
+                ->where('postalcode','28231')
+                ->where('banck','BN12411')
+                ->where('mobile','45454545454')
+                ->where('notas','fafsafa')
+                ->has('contacts.0',function ($jsonContacts) {
+                    $jsonContacts->where("id", 2)
+                    ->where("companys_id", 3)
+                    ->where("email", "awawaw@wwg.com")
+                    ->where("name", "pepon")
+                    ->where("location", "callejuela")
+                    ->where("telephone", "888888888")
+                    ->where("facturacion", 14241);
+                });
             });
         });
     }
     /**
-     * @test
+     * @atest
     */
     public function get_company_json_error(){
         DB::beginTransaction();
@@ -72,7 +91,7 @@ class CompanysControllerTest extends TestCase {
         });
     }
     /**
-     * @test
+     * @atest
     */
     public function post_insert_company_json(){
         DB::beginTransaction();
@@ -128,7 +147,7 @@ class CompanysControllerTest extends TestCase {
         DB::rollBack();
     }
     /**
-     * @test
+     * @atest
     */
     public function post_insert_company_json_error(){
         DB::beginTransaction();
@@ -163,7 +182,7 @@ class CompanysControllerTest extends TestCase {
         DB::rollBack();
     }
     /**
-     * @test
+     * @atest
     */
     public function delete_company_from_id_json(){
         DB::beginTransaction();
@@ -181,7 +200,7 @@ class CompanysControllerTest extends TestCase {
         DB::rollBack();
     }
     /**
-     * @test
+     * @atest
     */
     public function delete_company_from_id_json_error(){
         $id = 3;

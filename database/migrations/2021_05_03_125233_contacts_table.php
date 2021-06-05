@@ -15,7 +15,7 @@ class ContactsTable extends Migration
     {
         Schema::create('contacts', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('company_id')->nullable(false)->unsigned();
+            $table->bigInteger('companys_id')->nullable(false)->unsigned();
             $table->string('email', 45)->nullable(true);
             $table->string('name', 45)->nullable(true);
             $table->string('location', 45)->nullable(true);

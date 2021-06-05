@@ -10,7 +10,7 @@ class Contacts extends Model
     use HasFactory;
     public $timestamps = false;
     protected $fillable = [
-        'company_id',
+        'companys_id',
         'email',
         'name',
         'location',

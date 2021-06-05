@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\api\ArticlesController;
+use App\Http\Controllers\api\CompanysController;
 use App\Http\Requests\UpdateArticlesRequest;
 use App\Models\Articles;
 use Illuminate\Http\Request;
@@ -22,6 +23,7 @@ Route::middleware('auth:api')->get('/facturation/{id}', function (Request $reque
 });
 */
 
+//articles
 Route::get('articles', [ArticlesController::class, 'allArticles']);
 Route::get('articles/{id}', [ArticlesController::class, 'getArticle']);
 Route::post('articles', [ArticlesController::class, 'newArticle']);
@@ -32,3 +34,8 @@ Route::match(array('PUT', 'PATCH'), "articles/{id}", function(Request $request, 
 
 Route::delete('articles/{id}', [ArticlesController::class, 'deleteArticleFromId']);
 Route::delete('articles/delete_from_productid/{id}', [ArticlesController::class, 'deleteArticleFromProductId']);
+
+
+//companys
+Route::get('companys', [CompanysController::class, 'allCompanys']);
+Route::get('companys/{id}', [CompanysController::class, 'getCompany']);

@@ -18,7 +18,7 @@ class ContactTableSeeder extends Seeder
 
         Contacts::insert([
             [
-                'company_id' => 2,
+                'companys_id' => 2,
                 'email' => 'caca@#g',
                 'name' => 'luis',
                 'location' => 'apartaa',
@@ -26,7 +26,7 @@ class ContactTableSeeder extends Seeder
                 'facturacion' => '1421241',
             ],
             [
-                'company_id' => 3,
+                'companys_id' => 3,
                 'email' => 'awawaw@wwg.com',
                 'name' => 'pepon',
                 'location' => 'callejuela',
