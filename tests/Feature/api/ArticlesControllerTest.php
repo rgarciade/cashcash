@@ -14,7 +14,7 @@ use Illuminate\Testing\Fluent\AssertableJson;
 
 use function PHPUnit\Framework\assertEquals;
 
-class ArticlesControllerTest extends TestCase{
+class ArticlesControllerTest extends TestCase {
     use DatabaseMigrations;
 
     public function setUp(): void{
@@ -32,8 +32,8 @@ class ArticlesControllerTest extends TestCase{
     /**
      * @test
      */
-    public function get_articles_json()
-    {
+    public function get_articles_json(){
+
         $response = $this->get('/api/articles');
         $jsonArticles = file_get_contents(__DIR__."/testJsons/getAllArticles.json");
         $expectedResponse = json_decode($jsonArticles,true);
@@ -71,7 +71,7 @@ class ArticlesControllerTest extends TestCase{
             $json->has('msg')
             ->has('data')
             ->has('code')
-            ->where('msg',"article don't exist")
+            ->where('msg','article don\'t exist')
             ->where('code',500)
             ->where('data',"");
         });
