@@ -5,18 +5,11 @@ namespace Tests\Feature\api;
 use App\Http\Controllers\api\ArticlesController;
 use App\Http\Controllers\api\CompanysController;
 use App\Models\Companys;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
 
 class CompanysControllerTest extends TestCase {
-    use DatabaseMigrations;
-
-    public function setUp(): void{
-        parent::setUp();
-        $this->seed();
-    }
     /**
      * @test
      */
@@ -204,6 +197,7 @@ class CompanysControllerTest extends TestCase {
      * @test
     */
     public function path_update_article_json_error(){
+        DB::beginTransaction();
         $articleId = 1;
         $responseUpdateFirst = $this->patch("/api/companys/{$articleId}",[]);
         $responseUpdateSecond = $this->patch("/api/companys/{$articleId}",[
@@ -225,6 +219,7 @@ class CompanysControllerTest extends TestCase {
             ->where('msg',"error when update Company")
             ->where('code',500);
         });
+        DB::rollBack();
     }
     /**
      * @test
@@ -248,6 +243,7 @@ class CompanysControllerTest extends TestCase {
      * @test
     */
     public function delete_company_from_id_json_error(){
+        DB::beginTransaction();
         $id = 33;
         $this->assertEquals(0,count(Companys::where('id',$id)->get()));
         $responseDeleteFirst = $this->delete("/api/companys/{$id}");
@@ -259,5 +255,6 @@ class CompanysControllerTest extends TestCase {
             ->where('code',500)
             ->where('data',null);
         });
+        DB::rollBack();
     }
 }

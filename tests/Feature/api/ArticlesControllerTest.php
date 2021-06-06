@@ -3,11 +3,8 @@
 namespace Tests\Feature\api;
 
 use App\Models\Articles;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Testing\Fluent\AssertableJson;
@@ -15,12 +12,7 @@ use Illuminate\Testing\Fluent\AssertableJson;
 use function PHPUnit\Framework\assertEquals;
 
 class ArticlesControllerTest extends TestCase {
-    use DatabaseMigrations;
 
-    public function setUp(): void{
-        parent::setUp();
-        $this->seed();
-    }
     /**
      * @test
      */
@@ -64,7 +56,6 @@ class ArticlesControllerTest extends TestCase {
      * @test
     */
     public function get_article_json_error(){
-        DB::beginTransaction();
         $articleId = 12;
         $response = $this->get("/api/articles/{$articleId}");
         $response->assertJson(function (AssertableJson $json) {
@@ -75,7 +66,6 @@ class ArticlesControllerTest extends TestCase {
             ->where('code',500)
             ->where('data',"");
         });
-        DB::rollBack();
     }
     /**
      * @test
@@ -154,7 +144,6 @@ class ArticlesControllerTest extends TestCase {
             ->where('msg',"update article")
             ->where('code',200);
         });
-        DB::rollBack();
     }
     /**
      * @test
