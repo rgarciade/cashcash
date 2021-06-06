@@ -3,18 +3,22 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\validators\api\Articlesvalidators;
+use App\Http\Controllers\bbdd\ArticlesBbdd;
 use App\Http\Controllers\ApiResponseController;
 use App\Models\Articles;
 use Illuminate\Http\Request;
 
 
 class ArticlesController extends ApiResponseController {
+    function __construct() {
+        $this->ArticlesBbdd = new ArticlesBbdd();
+    }
     public function allArticles(){
-        return $this->successResponse(Articles::paginate(20),200);
+        return $this->successResponse($this->ArticlesBbdd->getAllPaginator(20),200);
     }
     public function getArticle($id){
 
-        $article = Articles::where('id',$id)->get();
+        $article = $this->ArticlesBbdd->getFromId($id);
         if(count($article) == 0){
             return $this->errorResponse('',500,"article don't exist");
         }
@@ -26,7 +30,7 @@ class ArticlesController extends ApiResponseController {
         if ($validator->fails()) return $this->errorResponse($validator->errors()->messages(),500,'error when create article');
 
         try {
-            $article = Articles::insert([
+            $article = $this->ArticlesBbdd->insert([
                 'productid' => $req->productid,
                 'description' => $req->description,
                 'units' => $req->units,
@@ -41,12 +45,10 @@ class ArticlesController extends ApiResponseController {
     }
     public function updateArticle(Request $request, $articleID){
         try {
-            $article = Articles::where('id',$articleID)->firstOrFail();
             $validator = Articlesvalidators::verifyUpdateArticles($request);
             if ($validator->fails()) return $this->errorResponse($validator->errors()->messages(),500,'error when update article');
-
-            $article->update($request->all());
-            if(!count($article->getChanges()))  return $this->errorResponse('',500,"any data to update");
+            $newArticle = $this->ArticlesBbdd->updateValue($request->all(),$articleID);
+            if(!count($newArticle->getChanges()))  return $this->errorResponse('',500,"any data to update");
         }
         catch (\Throwable $th) {
             return $this->errorResponse('',500,"error where update article");
@@ -57,8 +59,7 @@ class ArticlesController extends ApiResponseController {
     }
     public function deleteArticleFromProductId($pId){
         try {
-            $article = Articles::where('productid',$pId)->firstOrFail();
-            $article->delete();
+            $this->ArticlesBbdd->deleteFromColumAndId('productid',$pId);
         } catch (\Throwable $th) {
             return $this->errorResponse(null,500,'sql delete Error, chech ProductId');
         }
@@ -66,10 +67,7 @@ class ArticlesController extends ApiResponseController {
     }
     public function deleteArticleFromId($id){
         try {
-            //check exist
-            $article = Articles::where('id',$id)->firstOrFail();
-            //delete
-            $article->delete();
+            $this->ArticlesBbdd->deleteFromId($id);
         } catch (\Throwable $th) {
             return $this->errorResponse(null,500,'sql delete Error, chech id');
         }
