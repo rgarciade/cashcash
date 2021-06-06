@@ -89,6 +89,7 @@ class CompanysControllerTest extends TestCase {
             ->where('code',500)
             ->where('data',"");
         });
+        DB::rollBack();
     }
     /**
      * @test

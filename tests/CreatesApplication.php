@@ -18,13 +18,6 @@ trait CreatesApplication
     {
         $app = require __DIR__.'/../bootstrap/app.php';
         $app->make(Kernel::class)->bootstrap();
-     /*   dd(DB::connection()->getDatabaseName());
-        DB::disconnect('mysql');
-        Config::set('database.connections.mysql.database', env('DB_DATABASE'));
-        DB::reconnect();*/
-       // Artisan::call("migrate:fresh --seed");
-
-
         return $app;
     }
 }
