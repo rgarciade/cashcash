@@ -43,7 +43,7 @@ class ContactsControllerTest extends TestCase
         DB::rollBack();
     }
     /**
-     * @test
+     * @atest
     */
     public function post_insert_contact_json(){
         DB::beginTransaction();
@@ -64,7 +64,7 @@ class ContactsControllerTest extends TestCase
         });
     }
     /**
-     * @test
+     * @atest
     */
     public function delete_contact_from_contact_id_json(){
         DB::beginTransaction();

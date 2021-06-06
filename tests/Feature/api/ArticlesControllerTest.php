@@ -154,11 +154,13 @@ class ArticlesControllerTest extends TestCase {
             ->where('msg',"update article")
             ->where('code',200);
         });
+        DB::rollBack();
     }
     /**
      * @test
     */
     public function path_update_article_json_error(){
+        DB::beginTransaction();
         $articleId = 1;
         $responseUpdateFirst = $this->patch("/api/articles/{$articleId}",[]);
         $responseUpdateSecond = $this->patch("/api/articles/{$articleId}",[
@@ -182,6 +184,7 @@ class ArticlesControllerTest extends TestCase {
             ->where('code',500)
             ->where('data',"");
         });
+        DB::rollBack();
     }
      /**
      * @test
@@ -223,6 +226,7 @@ class ArticlesControllerTest extends TestCase {
      * @test
     */
     public function delete_article_from_id_json_error(){
+        DB::beginTransaction();
         $id = 123141235;
         $this->assertEquals(0,count(Articles::where('id',$id)->get()));
         $responseDeleteFirst = $this->delete("/api/articles/{$id}");
@@ -243,5 +247,6 @@ class ArticlesControllerTest extends TestCase {
             ->where('code',500)
             ->where('data',null);
         });
+        DB::rollBack();
     }
 }

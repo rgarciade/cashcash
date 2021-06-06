@@ -4,7 +4,7 @@ namespace App\Http\validators\api;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
-class Articlesvalidators extends Validator {
+class ArticlesValidators extends Validator {
     public static function verifyCreateArticles(Request $request){
         return Validator::make($request->all(), [
             'productid' => 'required|min:1|max:20',

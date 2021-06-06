@@ -28,7 +28,7 @@ class ArticlesController extends ApiResponseController {
 
         $validator = Articlesvalidators::verifyCreateArticles($req);
         if ($validator->fails()) return $this->errorResponse($validator->errors()->messages(),500,'error when create article');
-
+        
         try {
             $article = $this->ArticlesBbdd->insert([
                 'productid' => $req->productid,
