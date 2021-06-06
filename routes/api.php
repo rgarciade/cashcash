@@ -39,3 +39,10 @@ Route::delete('articles/delete_from_productid/{id}', [ArticlesController::class,
 //companys
 Route::get('companys', [CompanysController::class, 'allCompanys']);
 Route::get('companys/{id}', [CompanysController::class, 'getCompany']);
+Route::post('companys', [CompanysController::class, 'newCompany']);
+Route::match(array('PUT', 'PATCH'), "companys/{id}", function(Request $request, $id){
+    $companysController = new CompanysController();
+    return $companysController->updateCompany($request,$id);
+});
+Route::delete('companys/{id}', [CompanysController::class, 'deleteCompanyFromId']);
+

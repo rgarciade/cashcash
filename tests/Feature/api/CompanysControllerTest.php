@@ -75,27 +75,27 @@ class CompanysControllerTest extends TestCase {
         });
     }
     /**
-     * @atest
+     * @test
     */
     public function get_company_json_error(){
         DB::beginTransaction();
-        $articleId = 12;
-        $response = $this->get("/api/articles/{$articleId}");
+        $companyId = 12;
+        $response = $this->get("/api/companys/{$companyId}");
         $response->assertJson(function (AssertableJson $json) {
             $json->has('msg')
             ->has('data')
             ->has('code')
-            ->where('msg','company don\'t exist')
+            ->where('msg','Company don\'t exist')
             ->where('code',500)
             ->where('data',"");
         });
     }
     /**
-     * @atest
+     * @test
     */
     public function post_insert_company_json(){
         DB::beginTransaction();
-        $response = $this->post('/api/company',[
+        $response = $this->post('/api/companys',[
             'cif' => 'cifTest',
             'name' => 'nameTest',
             'contact' => 'contactTest',
@@ -116,17 +116,17 @@ class CompanysControllerTest extends TestCase {
         $response->assertJson(function (AssertableJson $json) {
             $json->has('msg')
             ->has('code')
-            ->where('msg',"contacto insertado correctamente")
+            ->where('msg',"Company insertada correctamente")
             ->where('code',200);
         });
-        $responseNewData = $this->get('/api/company/8');
+        $responseNewData = $this->get('/api/companys/5');
 
         $responseNewData->assertJson(function (AssertableJson $json) {
             $json->has('msg')
             ->where('msg',"")
             ->has('data', function ($json) {
                 $json
-                ->where('id', 8)
+                ->where('id', 5)
                 ->where('cif', 'cifTest')
                 ->where('name', 'nameTest')
                 ->where('contact', 'contactTest')
@@ -141,17 +141,18 @@ class CompanysControllerTest extends TestCase {
                 ->where('postalcode', 'postalcodeTest')
                 ->where('banck', 'banckTest')
                 ->where('mobile', 'mobileTest')
-                ->where('notas', 'notasTest');
+                ->where('notas', 'notasTest')
+                ->where('contacts',[]);
             });
         });
         DB::rollBack();
     }
     /**
-     * @atest
+     * @test
     */
     public function post_insert_company_json_error(){
         DB::beginTransaction();
-        $response = $this->post('/api/company',[]);
+        $response = $this->post('/api/companys',[]);
         $response->assertStatus(200);
         $response->assertJson(function (AssertableJson $json) {
             $json->has('msg')
@@ -161,7 +162,6 @@ class CompanysControllerTest extends TestCase {
             ->where('code',500)
             ->has('data', function ($json) {
                 $json
-                ->where("id", ["The id field is required."])
                 ->where("cif", ["The cif field is required."])
                 ->where("name", ["The name field is required."])
                 ->where("contact", ["The contact field is required."])
@@ -181,8 +181,52 @@ class CompanysControllerTest extends TestCase {
         });
         DB::rollBack();
     }
+   /**
+     * @test
+    */
+    public function path_update_company_json(){
+        DB::beginTransaction();
+        $response = $this->patch('/api/companys/1',[
+            "name"=>"empresaUpdated",
+            "notas"=>'ssssss'
+        ]);
+        DB::rollBack();
+        $response->assertStatus(200);
+        $response->assertJson(function (AssertableJson $json) {
+            $json->has('msg')
+            ->has('code')
+            ->where('msg',"update article")
+            ->where('code',200);
+        });
+    }
     /**
-     * @atest
+     * @test
+    */
+    public function path_update_article_json_error(){
+        $articleId = 1;
+        $responseUpdateFirst = $this->patch("/api/companys/{$articleId}",[]);
+        $responseUpdateSecond = $this->patch("/api/companys/{$articleId}",[
+            "name"=>""
+        ]);
+
+        $responseUpdateFirst->assertJson(function (AssertableJson $json) {
+            $json->has('msg')
+            ->has('data')
+            ->has('code')
+            ->where('msg',"any data to update")
+            ->where('code',500)
+            ->where('data',"");
+        });
+        $responseUpdateSecond->assertJson(function (AssertableJson $json) {
+            $json->has('msg')
+            ->has('data')
+            ->has('code')
+            ->where('msg',"error when update Company")
+            ->where('code',500);
+        });
+    }
+    /**
+     * @test
     */
     public function delete_company_from_id_json(){
         DB::beginTransaction();
@@ -192,7 +236,7 @@ class CompanysControllerTest extends TestCase {
         $responseDelete->assertJson(function (AssertableJson $json) {
             $json->has('msg')
             ->has('code')
-            ->where('msg',"compañia borrada correctamente")
+            ->where('msg',"Compañia borrada correctamente")
             ->where('code',200);
         });
         $this->assertEquals(0,count(Companys::where('id',$id)->get()));
@@ -200,10 +244,10 @@ class CompanysControllerTest extends TestCase {
         DB::rollBack();
     }
     /**
-     * @atest
+     * @test
     */
     public function delete_company_from_id_json_error(){
-        $id = 3;
+        $id = 33;
         $this->assertEquals(0,count(Companys::where('id',$id)->get()));
         $responseDeleteFirst = $this->delete("/api/companys/{$id}");
         $responseDeleteFirst->assertJson(function (AssertableJson $json) {

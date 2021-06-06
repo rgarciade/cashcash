@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\api;
 
-use App\Http\validators\api\Articlesvalidators;
+use App\Http\validators\api\ArticlesValidators;
 use App\Http\Controllers\bbdd\ArticlesBbdd;
 use App\Http\Controllers\ApiResponseController;
 use App\Models\Articles;
