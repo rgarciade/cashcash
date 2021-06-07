@@ -44,8 +44,11 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ],
+        "runtestsail": [
+            "./vendor/bin/sail artisan migrate:fresh >> logs/migrate.txt && ./vendor/bin/sail artisan db:seed >> logs/seed.txt && ./vendor/bin/sail artisan test"
+        ],
         "runtest": [
-            "./vendor/bin/phpunit"
+            "@php artisan migrate:fresh >> logs/migrate.txt && @php artisan db:seed >> logs/seed.txt && @php artisan test"
         ]
     },
     "extra": {
