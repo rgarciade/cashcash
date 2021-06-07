@@ -55,7 +55,7 @@ class ArticlesController extends ApiResponseController {
     }
     public function deleteArticleFromProductId($pId){
         try {
-            ArticlesBbdd::deleteFromColumAndId('productid',$pId);
+            ArticlesBbdd::deleteFromColumAndValue('productid',$pId);
         } catch (\Throwable $th) {
             return $this->errorResponse(null,500,'sql delete Error, chech ProductId');
         }
