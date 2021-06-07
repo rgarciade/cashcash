@@ -8,19 +8,29 @@ class commonBbdd implements InterfaceBbdd{
     public static function getModel(){
         return static::$model;
     }
-    public static function insert(array $values){
-        return static::$model::insert($values);
+    /**
+     * @param array ['colum'=>'value']
+     */
+    public static function insert(array $values) : void{
+        static::$model::insert($values);
     }
-    public static function getAll(){
+    /**
+     * @return all rows
+     */
+    public static function getAll() : \Illuminate\Database\Eloquent\Collection{
         return static::$model::all();
     }
-    public static function getAllPaginator($paginatorNumber){
+    /**
+     * @param int number of rows for page
+     * @return all rows paginated
+     */
+    public static function getAllPaginator( int $paginatorNumber) : \Illuminate\Pagination\LengthAwarePaginator{
         return static::$model::paginate($paginatorNumber);
     }
     public static function getFromId($id){
         return static::$model::where('id',$id)->get();
     }
-    public static function deleteFromColumAndId($colum,$id){
+    public static function deleteFromColumAndId($colum,$id) : void{
         try {
             $article = static::$model::where($colum,$id)->firstOrFail();
             $article->delete();
@@ -28,7 +38,7 @@ class commonBbdd implements InterfaceBbdd{
             throw new \Exception("sql delete Error, chech $colum");
         }
     }
-    public static function deleteFromId($id){
+    public static function deleteFromId($id) : void{
         try {
             $article = static::$model::where('id',$id)->firstOrFail();
             $article->delete();
@@ -36,7 +46,7 @@ class commonBbdd implements InterfaceBbdd{
             throw new \Exception('sql delete Error, chech id');
         }
     }
-    public static function updateValue( array $values,$articleID){
+    public static function updateValue( array $values,$articleID) : \Illuminate\Database\Eloquent\Model{
         $article = static::$model::where('id',$articleID)->firstOrFail();
         $article->update($values);
         return $article;
