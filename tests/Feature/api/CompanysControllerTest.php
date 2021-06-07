@@ -38,6 +38,7 @@ class CompanysControllerTest extends TestCase {
         $response->assertJson(function (AssertableJson $json) {
             $json->has('msg')
             ->where('msg',"")
+            ->where('code',200)
             ->has('data', function ($json) {
                 $json->where('id', 3)
                 ->where('cif','33619622t')
@@ -118,6 +119,7 @@ class CompanysControllerTest extends TestCase {
         $responseNewData->assertJson(function (AssertableJson $json) {
             $json->has('msg')
             ->where('msg',"")
+            ->where('code',200)
             ->has('data', function ($json) {
                 $json
                 ->where('id', 5)

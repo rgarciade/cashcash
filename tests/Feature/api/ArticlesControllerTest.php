@@ -9,8 +9,6 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Testing\Fluent\AssertableJson;
 
-use function PHPUnit\Framework\assertEquals;
-
 class ArticlesControllerTest extends TestCase {
 
     /**
@@ -41,6 +39,7 @@ class ArticlesControllerTest extends TestCase {
         $response->assertJson(function (AssertableJson $json) {
             $json->has('msg')
             ->where('msg',"")
+            ->where('code',200)
             ->has('data', function ($json) {
                 $json->where('id', 1)
                 ->where("id", 1)
@@ -82,7 +81,6 @@ class ArticlesControllerTest extends TestCase {
         $response->assertStatus(200);
         $response->assertJson(function (AssertableJson $json) {
             $json->has('msg')
-            ->has('code')
             ->where('msg',"articulo insertado correctamente")
             ->where('code',200);
         });
@@ -91,6 +89,7 @@ class ArticlesControllerTest extends TestCase {
         $responseNewData->assertJson(function (AssertableJson $json) {
             $json->has('msg')
             ->where('msg',"")
+            ->where('code',200)
             ->has('data', function ($json) {
                 $json
                 ->where("id", 8)
@@ -140,7 +139,6 @@ class ArticlesControllerTest extends TestCase {
         $response->assertStatus(200);
         $response->assertJson(function (AssertableJson $json) {
             $json->has('msg')
-            ->has('code')
             ->where('msg',"update article")
             ->where('code',200);
         });
@@ -180,7 +178,7 @@ class ArticlesControllerTest extends TestCase {
     */
     public function delete_article_from_producid_json(){
         DB::beginTransaction();
-        $productid = 1231;
+        $productid = 12633;
         $this->assertEquals(1,count(Articles::where('productid',$productid)->get()));
         $responseDelete = $this->delete("/api/articles/delete_from_productid/${productid}");
         $responseDelete->assertJson(function (AssertableJson $json) {

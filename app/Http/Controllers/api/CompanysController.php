@@ -53,7 +53,7 @@ class CompanysController extends ApiResponseController {
             return $this->errorResponse(null,500,'sql insert Error, chech values');
         }
         if(!$companys) $this->errorResponse(null,500,'sql insert Error, chech values');
-        return $this->successResponse(null,null,'Company insertada correctamente');
+        return $this->successResponse(null,200,'Company insertada correctamente');
     }
     public function updateCompany(Request $request, $articleID){
         try {
@@ -67,7 +67,7 @@ class CompanysController extends ApiResponseController {
         }
 
 
-        return $this->successResponse(null,null,'update article');
+        return $this->successResponse(null,200,'update article');
     }
     public function deleteCompanyFromId($id){
         try {
@@ -75,6 +75,6 @@ class CompanysController extends ApiResponseController {
         } catch (\Throwable $th) {
             return $this->errorResponse(null,500,'sql delete Error, chech id');
         }
-        return $this->successResponse(null,null,'Compañia borrada correctamente');
+        return $this->successResponse(null,200,'Compañia borrada correctamente');
     }
 }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\api\ArticlesController;
 use App\Http\Controllers\api\CompanysController;
+use App\Http\Controllers\api\ContactsController;
 use App\Http\Requests\UpdateArticlesRequest;
 use App\Models\Articles;
 use Illuminate\Http\Request;
@@ -45,4 +46,10 @@ Route::match(array('PUT', 'PATCH'), "companys/{id}", function(Request $request, 
     return $companysController->updateCompany($request,$id);
 });
 Route::delete('companys/{id}', [CompanysController::class, 'deleteCompanyFromId']);
+
+//contacts
+Route::get('contac/{id}', [ContactsController::class, 'getContact']);
+Route::get('contacs/{companyId}', [ContactsController::class, 'allContactsFromCompany']);
+Route::post('contacs', [ContactsController::class, 'insertContac']);
+Route::delete('contacs/{id}', [ContactsController::class, 'deletetContac']);
 

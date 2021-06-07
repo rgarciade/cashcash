@@ -13,8 +13,8 @@ class ApiResponseController extends Controller {
         if(!is_null($msg)){
             $response['msg'] = $msg;
         }
-        if(is_null($code)){
-            $response['code'] = 200;
+        if(!is_null($code)){
+            $response['code'] = $code;
         }
         return response()->json($response);
     }

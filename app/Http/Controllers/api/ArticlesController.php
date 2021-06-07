@@ -37,7 +37,7 @@ class ArticlesController extends ApiResponseController {
             return $this->errorResponse(null,500,'sql insert Error, chech values');
         }
         if(!$article) $this->errorResponse(null,500,'sql insert Error, chech values');
-        return $this->successResponse(null,null,'articulo insertado correctamente');
+        return $this->successResponse(null,200,'articulo insertado correctamente');
     }
     public function updateArticle(Request $request, $articleID){
         try {
@@ -51,7 +51,7 @@ class ArticlesController extends ApiResponseController {
         }
 
 
-        return $this->successResponse(null,null,'update article');
+        return $this->successResponse(null,200,'update article');
     }
     public function deleteArticleFromProductId($pId){
         try {
@@ -59,7 +59,7 @@ class ArticlesController extends ApiResponseController {
         } catch (\Throwable $th) {
             return $this->errorResponse(null,500,'sql delete Error, chech ProductId');
         }
-        return $this->successResponse(null,null,'articulo borrado correctamente');
+        return $this->successResponse(null,200,'articulo borrado correctamente');
     }
     public function deleteArticleFromId($id){
         try {
@@ -67,6 +67,6 @@ class ArticlesController extends ApiResponseController {
         } catch (\Throwable $th) {
             return $this->errorResponse(null,500,'sql delete Error, chech id');
         }
-        return $this->successResponse(null,null,'articulo borrado correctamente');
+        return $this->successResponse(null,200,'articulo borrado correctamente');
     }
 }
