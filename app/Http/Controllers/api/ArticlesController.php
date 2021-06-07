@@ -10,15 +10,12 @@ use Illuminate\Http\Request;
 
 
 class ArticlesController extends ApiResponseController {
-    function __construct() {
-        $this->ArticlesBbdd = new ArticlesBbdd();
-    }
     public function allArticles(){
-        return $this->successResponse($this->ArticlesBbdd->getAllPaginator(20),200);
+        return $this->successResponse(ArticlesBbdd::getAllPaginator(20),200);
     }
     public function getArticle($id){
 
-        $article = $this->ArticlesBbdd->getFromId($id);
+        $article = ArticlesBbdd::getFromId($id);
         if(count($article) == 0){
             return $this->errorResponse('',500,"article don't exist");
         }
@@ -28,9 +25,9 @@ class ArticlesController extends ApiResponseController {
 
         $validator = Articlesvalidators::verifyCreateArticles($req);
         if ($validator->fails()) return $this->errorResponse($validator->errors()->messages(),500,'error when create article');
-        
+
         try {
-            $article = $this->ArticlesBbdd->insert([
+            $article = ArticlesBbdd::insert([
                 'productid' => $req->productid,
                 'description' => $req->description,
                 'units' => $req->units,
@@ -47,7 +44,7 @@ class ArticlesController extends ApiResponseController {
         try {
             $validator = Articlesvalidators::verifyUpdateArticles($request);
             if ($validator->fails()) return $this->errorResponse($validator->errors()->messages(),500,'error when update article');
-            $newArticle = $this->ArticlesBbdd->updateValue($request->all(),$articleID);
+            $newArticle = ArticlesBbdd::updateValue($request->all(),$articleID);
             if(!count($newArticle->getChanges()))  return $this->errorResponse('',500,"any data to update");
         }
         catch (\Throwable $th) {
@@ -59,7 +56,7 @@ class ArticlesController extends ApiResponseController {
     }
     public function deleteArticleFromProductId($pId){
         try {
-            $this->ArticlesBbdd->deleteFromColumAndId('productid',$pId);
+            ArticlesBbdd::deleteFromColumAndId('productid',$pId);
         } catch (\Throwable $th) {
             return $this->errorResponse(null,500,'sql delete Error, chech ProductId');
         }
@@ -67,7 +64,7 @@ class ArticlesController extends ApiResponseController {
     }
     public function deleteArticleFromId($id){
         try {
-            $this->ArticlesBbdd->deleteFromId($id);
+            ArticlesBbdd::deleteFromId($id);
         } catch (\Throwable $th) {
             return $this->errorResponse(null,500,'sql delete Error, chech id');
         }

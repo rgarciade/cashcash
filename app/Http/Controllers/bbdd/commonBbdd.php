@@ -1,45 +1,43 @@
 <?php
 namespace App\Http\Controllers\bbdd;
-use Illuminate\Database\Eloquent\Model as model;
+use Illuminate\Database\Eloquent\Model;
 
 class commonBbdd implements InterfaceBbdd{
-    const model = null;
-    function __construct() {
-        $this->model = new model();
+    protected static $model = Model::class;
+
+    public static function getModel(){
+        return static::$model;
     }
-    public function getModel(){
-        return new model();
+    public static function insert(array $values){
+        return static::$model::insert($values);
     }
-    public function insert(array $values){
-        return $this->model::insert($values);
+    public static function getAll(){
+        return static::$model::all();
     }
-    public function getAll(){
-        return $this->model::all();
+    public static function getAllPaginator($paginatorNumber){
+        return static::$model::paginate($paginatorNumber);
     }
-    public function getAllPaginator($paginatorNumber){
-        return $this->model::paginate($paginatorNumber);
+    public static function getFromId($id){
+        return static::$model::where('id',$id)->get();
     }
-    public function getFromId($id){
-        return $this->model::where('id',$id)->get();
-    }
-    public function deleteFromColumAndId($colum,$id){
+    public static function deleteFromColumAndId($colum,$id){
         try {
-            $article = $this->model::where($colum,$id)->firstOrFail();
+            $article = static::$model::where($colum,$id)->firstOrFail();
             $article->delete();
         } catch (\Throwable $th) {
             throw new \Exception("sql delete Error, chech $colum");
         }
     }
-    public function deleteFromId($id){
+    public static function deleteFromId($id){
         try {
-            $article = $this->model::where('id',$id)->firstOrFail();
+            $article = static::$model::where('id',$id)->firstOrFail();
             $article->delete();
         } catch (\Throwable $th) {
             throw new \Exception('sql delete Error, chech id');
         }
     }
-    public function updateValue( array $values,$articleID){
-        $article = $this->model::where('id',$articleID)->firstOrFail();
+    public static function updateValue( array $values,$articleID){
+        $article = static::$model::where('id',$articleID)->firstOrFail();
         $article->update($values);
         return $article;
     }
