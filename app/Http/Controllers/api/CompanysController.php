@@ -3,25 +3,23 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\ApiResponseController;
-use App\Http\Controllers\bbdd\CompanysBbdd;
+use App\Http\Controllers\database\CompanysBbdd;
 use App\Http\validators\api\CompanysValidators;
 use App\Models\Companys;
 use Illuminate\Http\Request;
 
 
 class CompanysController extends ApiResponseController {
-    function __construct() {
-        $this->CompanysBbdd = new CompanysBbdd();
-    }
+
     public function allCompanys(){
-        $comps = $this->CompanysBbdd->getAllPaginator(20);
+        $comps = CompanysBbdd::getAllPaginator(20);
         foreach ($comps as $comp) {
             $comp->contacts;
         }
         return $this->successResponse($comps,200);
     }
     public function getCompany($id){
-        $company = $this->CompanysBbdd->getFromId($id);
+        $company = CompanysBbdd::getFromId($id);
         if(count($company) == 0){
             return $this->errorResponse('',500,"Company don't exist");
         }
@@ -34,7 +32,7 @@ class CompanysController extends ApiResponseController {
         if ($validator->fails()) return $this->errorResponse($validator->errors()->messages(),500,'error when create company');
 
         try {
-            $companys = $this->CompanysBbdd->insert([
+            $companys = CompanysBbdd::insert([
                 'cif' => $req->cif,
                 'name' => $req->name,
                 'contact' => $req->contact,
@@ -61,7 +59,7 @@ class CompanysController extends ApiResponseController {
         try {
             $validator = CompanysValidators::verifyUpdateACompany($request);
             if ($validator->fails()) return $this->errorResponse($validator->errors()->messages(),500,'error when update Company');
-            $newArticle = $this->CompanysBbdd->updateValue($request->all(),$articleID);
+            $newArticle = CompanysBbdd::updateValue($request->all(),$articleID);
             if(!count($newArticle->getChanges()))  return $this->errorResponse('',500,"any data to update");
         }
         catch (\Throwable $th) {
@@ -73,7 +71,7 @@ class CompanysController extends ApiResponseController {
     }
     public function deleteCompanyFromId($id){
         try {
-            $this->CompanysBbdd->deleteFromId($id);
+            CompanysBbdd::deleteFromId($id);
         } catch (\Throwable $th) {
             return $this->errorResponse(null,500,'sql delete Error, chech id');
         }

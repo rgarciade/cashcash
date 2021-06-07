@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\api;
 
-use App\Http\Controllers\bbdd\ContactsBbdd;
+use App\Http\Controllers\database\ContactsBbdd;
 use App\Models\Contacts;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\DB;
