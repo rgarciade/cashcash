@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\ApiResponseController;
-use App\Http\Controllers\bbdd\CompanysBbdd;
+use App\Http\Controllers\database\CompanysBbdd;
 use App\Http\validators\api\CompanysValidators;
 use App\Models\Companys;
 use Illuminate\Http\Request;

@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers\bbdd;
+namespace App\Http\Controllers\database;
 
 interface InterfaceBbdd{
     public static function insert(array $request);

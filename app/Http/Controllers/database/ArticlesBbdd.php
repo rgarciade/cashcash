@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers\bbdd;
+namespace App\Http\Controllers\database;
 
 use App\Models\Articles;
 
