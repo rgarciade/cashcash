@@ -1,5 +1,21 @@
 <template>
     <div>
+        <div>
+    <v-icon
+      large
+      color="orange darken-2"
+    >
+      mdi-arrow-up-bold-box-outline
+    </v-icon>
+       <div>aaa- <router-link :to="{name:'aaa'}"  >
+            <v-icon
+      large
+      color="orange darken-2"
+    >
+      mdi-arrow-up-bold-box-outline
+    </v-icon>
+        </router-link>---aaa</div>
+        </div>
         <div class="card" style="" v-for="post in posts" :key="post.nombre">
             <h5 class="card-title"> {{post.nombre}}</h5>
         </div>
@@ -10,7 +26,8 @@
     export default {
         data(){
             return{
-                posts:[]
+                posts:[],
+                text: 'afsafasfafs',
             }
 
         },
