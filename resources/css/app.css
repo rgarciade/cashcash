@@ -1,0 +1,36 @@
+.menu_arrow_right {
+    margin-left: -6px;
+}
+.position_menu{
+  z-index: 999;
+  border-bottom-left-radius: initial !important;
+  border-bottom-right-radius: initial !important;
+  border-top-left-radius: initial !important; 
+  border-top-right-radius: initial !important;
+}
+a {
+    color: #507fbd;
+    cursor: pointer;
+}
+.list_background{
+  background: rgba(27,27,27,.74);
+}
+.min_height_menu{
+  min-height: 100% 
+}
+.background_img{
+    background-image: url('../../public/images/menu.jpg');
+    overflow-y: hidden;
+    overflow-x: hidden;
+    background-repeat: no-repeat;
+    background-size: auto 100%;
+}
+.router-link-exact-active {
+    color: #95c527
+}
+.router-link-exact-active > i{
+    color: #95c527
+}
+.fixedmenu{
+  position: fixed;
+}
