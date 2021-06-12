@@ -1,7 +1,7 @@
 import Vue from "vue"
 import Vuex from "vuex"
 const { menuRoutes } = require('../routes')
-const actions = require('./actions')
+const actions = require('./actions/actions.js')
 const mutations = require('./mutations')
 Vue.use(Vuex)
 export default new Vuex.Store({

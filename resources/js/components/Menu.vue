@@ -34,13 +34,15 @@
           v-for="item in menuRoutes"
           :key="item.title"
           link
+          :to='item.route'
+          @click.stop="mini = true"
         >
           <v-list-item-icon>
-            <v-icon color="blue">{{ item.icon }}</v-icon>
+            <v-icon color="primary">{{ item.icon }}</v-icon>
           </v-list-item-icon>
 
-          <v-list-item-content>
-            <v-list-item-title >{{ item.title }}</v-list-item-title>
+          <v-list-item-content >
+            <v-list-item-title class="indigo--text font-weight-black" >{{ item.title }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>

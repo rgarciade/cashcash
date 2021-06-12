@@ -1,3 +1,52 @@
+/* app */
+.routerView {
+  position: inherit;
+  margin-left: 4.2em;
+  margin-right: 0em;
+  margin-top: -1em;
+}
+.remove_radius{
+  border-bottom-left-radius: initial !important;
+  border-bottom-right-radius: initial !important;
+  border-top-left-radius: initial !important; 
+  border-top-right-radius: initial !important;
+}
+
+body {
+  background-color: white;
+  font-size: 13px;
+  color: #676a6c;
+  overflow-x: hidden;
+}
+textarea, input, body{
+text-transform: uppercase !important;
+}
+#c_email, #correo, .email{
+  text-transform: lowercase !important;
+}
+#_Correo, #_contraseña, #_Host, #_emailprueba{
+  text-transform: none !important;
+}
+.container_position{
+  margin-top: 2em;
+}
+a{
+text-decoration: none;
+}
+.arrowback{
+  position: absolute;
+  margin-top: 1em;
+  margin-left: 1em;
+  cursor: pointer;
+}
+.button_add_company{
+position: absolute;
+  margin-left: 90%;
+}
+.button_add_company:hover{
+  position: absolute !important;
+}
+/* menu */
 .menu_arrow_right {
     margin-left: -6px;
 }

@@ -38,4 +38,5 @@ Route::get('/', function () {
 }*/
 
 Route::get('/',[App\Http\Controllers\web\indexController::class,'index']);
+Route::get('/Articles',[App\Http\Controllers\web\indexController::class,'index']);
 Route::get('/aaa',[App\Http\Controllers\web\indexController::class,'index']);

@@ -2,15 +2,17 @@ import VueRouter from 'vue-router';
 import Vue from 'vue'
 import Postlist from './components/PostListComponent';
 import aaa from './components/aaa';
+import Articles from './views/Articles';
 
 
 const routes = [
     { path: '/', component: Postlist },
     { path: '/aaa', name:'aaa', component: aaa },
+    { path: '/Articles', name:'Articles', component: Articles },
     { path: '*', component: Postlist }
 ];
 const menuRoutes = [
-    { title: 'Punto de venta', icon: 'mdi-basket-fill', route: 'aaa' },
+    { title: 'Punto de venta', icon: 'mdi-basket-fill', route: '/aaa' },
     { title: 'Facturación', icon: 'mdi-archive', route: '/Billing' },
     { title: 'tickets', icon: 'mdi-filmstrip', route: '/tickets' },
     { title: 'Articulos', icon: 'mdi-forklift', route: '/Articles' },
