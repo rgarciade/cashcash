@@ -113,14 +113,14 @@
                   <v-btn
                     color="blue darken-1"
                     text
-                    @click="close"
+                    @click="closeDialog"
                   >
                     Cancel
                   </v-btn>
                   <v-btn
                     color="blue darken-1"
                     text
-                    @click="save"
+                    @click="saveArticleDialog"
                   >
                     Save
                   </v-btn>
@@ -166,7 +166,7 @@
         <template v-slot:no-data>
           <v-btn
             color="primary"
-            @click="initialize"
+            @click="allArticles"
           >
             Reset
           </v-btn>
@@ -230,11 +230,23 @@
         }),
         methods: Object.assign(
           {},
-          mapActions(['allArticles','findArticles']),
+          mapActions(['allArticles','findArticles','saveArticles']),
           {
              getColor(number){
                return number? 'green' : 'red'
-             }
+             },
+            closeDialog() {
+              this.dialog = false
+              this.$nextTick(() => {
+                this.editedItem = Object.assign({}, this.defaultItem)
+                this.editedIndex = -1
+              })
+            },
+            async saveArticleDialog() {
+              await this.saveArticles(this.editedItem)
+              await this.allArticles()
+              this.closeDialog()
+            }
           }
         ),
         async mounted() {

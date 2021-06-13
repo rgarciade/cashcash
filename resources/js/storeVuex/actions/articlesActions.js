@@ -6,30 +6,38 @@ const articlesActions = {
         
                 httpRequest.get('articles').then(resp =>{
                     store.commit('articles', resp.data)
-                    console.log('okk',resp)
                 })
                 .catch(err =>{
-                    //debugger
                     console.log('error',err)
                 })               
             } catch (error) {
                 console.error(error)
+                
+                this.commit('alert', 'error al cargar los articulos')
             }
     },
     findArticles( store, textFinder ){
-        console.log(textFinder)
         if(textFinder == ''){
-            store.dispatch('allArticles', textFinder)
+            store.commit('alert', textFinder)
             return;
         }
         httpRequest.get(`articles/find=${textFinder}`).then(resp =>{
             store.commit('articles', resp.data)
-            console.log('okk',resp)
         })
         .catch(err =>{
             console.log('error',err)
+            this.commit('alert', 'error al cargar los articulos')
         })
-       
+    },
+    saveArticles( store, args ){
+        httpRequest.post(`articles`,args).then(resp =>{
+            this.commit('alert', 'articulo creado correctamente')
+        })
+        .catch(err =>{
+            console.log('error',err)
+            debugger
+            this.commit('alert', 'error al crear el articulo')
+        })
     }
 }
 module.exports =  articlesActions

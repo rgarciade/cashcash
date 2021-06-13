@@ -2082,13 +2082,14 @@ __webpack_require__.r(__webpack_exports__);
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)(['alert']),
   data: function data() {
     return {
-      msg: ''
+      msgActive: false,
+      close: false
     };
   },
   watch: {
     alert: function alert(val) {
       if (val != '') {
-        this.msg = val;
+        this.close = true;
       }
     }
   }
@@ -2388,27 +2389,62 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return this.editedIndex === -1 ? "Nuevo artículo" : "Editar Articulo";
     }
   }),
-  methods: Object.assign({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(['allArticles', 'findArticles']), {
+  methods: Object.assign({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(['allArticles', 'findArticles', 'saveArticles']), {
     getColor: function getColor(number) {
       return number ? 'green' : 'red';
+    },
+    closeDialog: function closeDialog() {
+      var _this = this;
+
+      this.dialog = false;
+      this.$nextTick(function () {
+        _this.editedItem = Object.assign({}, _this.defaultItem);
+        _this.editedIndex = -1;
+      });
+    },
+    saveArticleDialog: function saveArticleDialog() {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return _this2.saveArticles(_this2.editedItem);
+
+              case 2:
+                _context.next = 4;
+                return _this2.allArticles();
+
+              case 4:
+                _this2.closeDialog();
+
+              case 5:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     }
   }),
   mounted: function mounted() {
-    var _this = this;
+    var _this3 = this;
 
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
         while (1) {
-          switch (_context.prev = _context.next) {
+          switch (_context2.prev = _context2.next) {
             case 0:
-              _this.allArticles();
+              _this3.allArticles();
 
             case 1:
             case "end":
-              return _context.stop();
+              return _context2.stop();
           }
         }
-      }, _callee);
+      }, _callee2);
     }))();
   }
 });
@@ -2572,6 +2608,8 @@ var httpRequest = /*#__PURE__*/function () {
       return new Promise(function (resolver, reject) {
         _storeVuex__WEBPACK_IMPORTED_MODULE_1__.default.commit('charging');
         axios__WEBPACK_IMPORTED_MODULE_0___default().post("".concat(_this.baseUrl, "/").concat(url), data).then(function (response) {
+          debugger;
+          if (response.data.code != 200) reject(response);
           resolver(response);
           _storeVuex__WEBPACK_IMPORTED_MODULE_1__.default.commit('charged');
         })["catch"](function (error) {
@@ -2588,6 +2626,7 @@ var httpRequest = /*#__PURE__*/function () {
       return new Promise(function (resolver, reject) {
         _storeVuex__WEBPACK_IMPORTED_MODULE_1__.default.commit('charging');
         axios__WEBPACK_IMPORTED_MODULE_0___default().get("".concat(_this2.baseUrl, "/").concat(url)).then(function (response) {
+          if (response.data.code != 200) reject(response);
           resolver(response);
           _storeVuex__WEBPACK_IMPORTED_MODULE_1__.default.commit('charged');
         })["catch"](function (error) {
@@ -2725,28 +2764,40 @@ var articlesActions = {
     try {
       httpRequest.get('articles').then(function (resp) {
         store.commit('articles', resp.data);
-        console.log('okk', resp);
       })["catch"](function (err) {
-        //debugger
         console.log('error', err);
       });
     } catch (error) {
       console.error(error);
+      this.commit('alert', 'error al cargar los articulos');
     }
   },
   findArticles: function findArticles(store, textFinder) {
-    console.log(textFinder);
+    var _this = this;
 
     if (textFinder == '') {
-      store.dispatch('allArticles', textFinder);
+      store.commit('alert', textFinder);
       return;
     }
 
     httpRequest.get("articles/find=".concat(textFinder)).then(function (resp) {
       store.commit('articles', resp.data);
-      console.log('okk', resp);
     })["catch"](function (err) {
       console.log('error', err);
+
+      _this.commit('alert', 'error al cargar los articulos');
+    });
+  },
+  saveArticles: function saveArticles(store, args) {
+    var _this2 = this;
+
+    httpRequest.post("articles", args).then(function (resp) {
+      _this2.commit('alert', 'articulo creado correctamente');
+    })["catch"](function (err) {
+      console.log('error', err);
+      debugger;
+
+      _this2.commit('alert', 'error al crear el articulo');
     });
   }
 };
@@ -2872,6 +2923,12 @@ var mutations = {
   },
   charged: function charged(state) {
     state.progresActive = false;
+  },
+  alert: function alert(state, msg) {
+    state.alert = '';
+    setTimeout(function () {
+      state.alert = msg;
+    }, 100);
   },
   articles: function articles(state, articlesResponse) {
     state.articles.data = articlesResponse.data.data;
@@ -26502,32 +26559,32 @@ var render = function() {
   return _c(
     "div",
     [
-      _vm.msg != ""
+      _vm.close
         ? _c(
             "v-snackbar",
             {
-              attrs: { "multi-line": "", timeout: 10000, top: "" },
+              attrs: { "multi-line": "", timeout: 4000, top: "" },
               model: {
-                value: _vm.msg,
+                value: _vm.alert,
                 callback: function($$v) {
-                  _vm.msg = $$v
+                  _vm.alert = $$v
                 },
-                expression: "msg"
+                expression: "alert"
               }
             },
             [
-              _vm._v("\n     " + _vm._s(_vm.msg) + "\n     "),
+              _vm._v("\n        " + _vm._s(_vm.alert) + "\n        "),
               _c(
                 "v-btn",
                 {
-                  attrs: { color: "pink", flat: "" },
+                  attrs: { color: "primary", flat: "" },
                   on: {
                     click: function($event) {
-                      _vm.msg = false
+                      _vm.close = false
                     }
                   }
                 },
-                [_vm._v("\n       Cerrar\n     ")]
+                [_vm._v("\n          Cerrar\n        ")]
               )
             ],
             1
@@ -26893,7 +26950,7 @@ var render = function() {
                                 "v-btn",
                                 {
                                   attrs: { color: "blue darken-1", text: "" },
-                                  on: { click: _vm.close }
+                                  on: { click: _vm.closeDialog }
                                 },
                                 [
                                   _vm._v(
@@ -26906,7 +26963,7 @@ var render = function() {
                                 "v-btn",
                                 {
                                   attrs: { color: "blue darken-1", text: "" },
-                                  on: { click: _vm.save }
+                                  on: { click: _vm.saveArticleDialog }
                                 },
                                 [
                                   _vm._v(
@@ -27036,7 +27093,7 @@ var render = function() {
                     "v-btn",
                     {
                       attrs: { color: "primary" },
-                      on: { click: _vm.initialize }
+                      on: { click: _vm.allArticles }
                     },
                     [_vm._v("\n          Reset\n        ")]
                   )

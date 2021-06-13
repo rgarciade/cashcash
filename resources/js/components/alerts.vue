@@ -1,37 +1,41 @@
 <template>
     <div>
-   <v-snackbar
-        v-if="msg != ''"
-        v-model="msg"
-        multi-line
-        :timeout=10000
-        top
-      >
-        {{msg}}
-        <v-btn
-          color="pink"
-          flat
-          @click="msg = false"
-        >
-          Cerrar
-        </v-btn>
-      </v-snackbar>
+      <v-snackbar
+            v-if="close"
+            v-model="alert"
+            multi-line
+            :timeout=4000
+            top
+          >
+            {{alert}}
+            <v-btn
+              color="primary"
+              flat
+              @click="close = false"
+            >
+              Cerrar
+            </v-btn>
+          </v-snackbar>
     </div>
 </template>
 <script>
-    import { mapState, mapGetters, mapActions} from "vuex"
+    import { mapState } from "vuex"
     export default {
         name: 'alert',
         computed: mapState(['alert']),
         data(){
-          return { msg:'' }
+          return { 
+            msgActive:false,
+            close: false
+          }
         },
         watch:{
           alert: function(val){
             if(val != ''){
-              this.msg = val
+              this.close = true
             }
           }
+
         }
     }
 </script>
