@@ -31,7 +31,7 @@ text-transform: uppercase !important;
   margin-top: 2em;
 }
 a{
-text-decoration: none;
+  text-decoration: none;
 }
 .arrowback{
   position: absolute;
@@ -51,7 +51,7 @@ position: absolute;
     margin-left: -6px;
 }
 .position_menu{
-  z-index: 999;
+  z-index: 99;
   border-bottom-left-radius: initial !important;
   border-bottom-right-radius: initial !important;
   border-top-left-radius: initial !important; 
@@ -90,4 +90,7 @@ a {
 }
 .new_article{
   margin: 10px;
+}
+.modal_article{
+  z-index: 100;
 }

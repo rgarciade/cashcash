@@ -4,9 +4,14 @@ import vuetify from './vuetify'
 import App from './App.vue'
 import store from "./storeVuex"
 import Menu from './components/Menu';
-Vue.component('Menu', Menu)
+import progress from './components/progress';
+import Alerts from './components/alerts';
 
-const app = new Vue({
+Vue.component('Menu', Menu)
+Vue.component('Progress', progress)
+Vue.component('Alerts', Alerts)
+
+new Vue({
     vuetify,
     store,
     router,

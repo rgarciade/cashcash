@@ -69,4 +69,11 @@ class ArticlesController extends ApiResponseController {
         }
         return $this->successResponse(null,200,'articulo borrado correctamente');
     }
+    public function findArticles($string){
+        $articles = ArticlesBbdd::findArticlesByAllFields($string,20);
+        if(count($articles) == 0){
+            return $this->errorResponse('',500,"articles don't found");
+        }
+        return $this->successResponse($articles,200);
+    }
 }

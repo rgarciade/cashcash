@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\api;
 
+use App\Http\Controllers\database\ArticlesBbdd;
 use App\Models\Articles;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
@@ -235,5 +236,37 @@ class ArticlesControllerTest extends TestCase {
             ->where('data',null);
         });
         DB::rollBack();
+    }
+     /**
+     * @test
+    */
+    public function findArticlesByAllFields(){
+        $articlesTocompare = [
+            0 =>  [
+              "id" => 1,
+              "productid" => "1231",
+              "description" => "pantalla",
+              "units" => 2.0,
+              "purchase_price" => 22.0,
+              "public_price" => 44.0,
+            ],
+            1 =>  [
+              "id" => 4,
+              "productid" => "12638",
+              "description" => "mpantalla alargada",
+              "units" => 5.0,
+              "purchase_price" => 134.0,
+              "public_price" => 155.0,
+            ],
+            2 =>  [
+              "id" => 6,
+              "productid" => "12633",
+              "description" => "mpantalla lg",
+              "units" => 2.0,
+              "purchase_price" => 13.0,
+              "public_price" => 34.0
+            ]
+        ];
+        $this->assertEquals($articlesTocompare,ArticlesBbdd::findArticlesByAllFields('al'));
     }
 }

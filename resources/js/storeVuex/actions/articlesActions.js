@@ -1,35 +1,35 @@
 
 const {httpRequest} = require('../../functions/httpRequest')
 const articlesActions = {
-    allArticles( store, args ) {
-        //debugger
-            const text = (args != undefined && args.hasOwnProperty('textFinder'))? args.textFinder : ""
+    allArticles( store ) {
             try {
-                
-                store.commit("charging")
+        
                 httpRequest.get('articles').then(resp =>{
                     store.commit('articles', resp.data)
                     console.log('okk',resp)
                 })
                 .catch(err =>{
                     //debugger
-                    console.log('okk',err)
-                })
-              /*   if (text != '' && text) {
-                    store.commit('articles', await DB_Articles.findArticles(text))
-                } else if ( (findAll && (text == "")) || text == null) {
-                    store.commit('articles', await DB_Articles.findAllArticles())
-                }else if (text == "") {
-                    store.commit('articles', [])
-                } */
-               // store.commit('charged')
+                    console.log('error',err)
+                })               
             } catch (error) {
                 console.error(error)
             }
     },
     findArticles( store, textFinder ){
-        debugger
         console.log(textFinder)
+        if(textFinder == ''){
+            store.dispatch('allArticles', textFinder)
+            return;
+        }
+        httpRequest.get(`articles/find=${textFinder}`).then(resp =>{
+            store.commit('articles', resp.data)
+            console.log('okk',resp)
+        })
+        .catch(err =>{
+            console.log('error',err)
+        })
+       
     }
 }
 module.exports =  articlesActions

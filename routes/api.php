@@ -26,6 +26,7 @@ Route::middleware('auth:api')->get('/facturation/{id}', function (Request $reque
 
 //articles
 Route::get('articles', [ArticlesController::class, 'allArticles']);
+Route::get('articles/find={string}', [ArticlesController::class, 'findArticles']);
 Route::get('articles/{id}', [ArticlesController::class, 'getArticle']);
 Route::post('articles', [ArticlesController::class, 'newArticle']);
 Route::match(array('PUT', 'PATCH'), "articles/{id}", function(Request $request, $id){

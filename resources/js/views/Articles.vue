@@ -46,7 +46,7 @@
                   Nuevo Articulo
                 </v-btn>
               </template>
-              <v-card>
+              <v-card class="modal_article">
                 <v-card-title>
                   <span class="text-h5">{{ formTitle }}</span>
                 </v-card-title>
@@ -57,7 +57,7 @@
                       <v-col
                         cols="12"
                         sm="6"
-                        md="4"
+                        md="5"
                       >
                         <v-text-field
                           v-model="editedItem.productid"
@@ -67,7 +67,7 @@
                       <v-col
                         cols="12"
                         sm="6"
-                        md="4"
+                        md="5"
                       >
                         <v-text-field
                           v-model="editedItem.description"
@@ -77,7 +77,7 @@
                       <v-col
                         cols="12"
                         sm="6"
-                        md="4"
+                        md="5"
                       >
                         <v-text-field
                           v-model="editedItem.units"
@@ -87,12 +87,18 @@
                       <v-col
                         cols="12"
                         sm="6"
-                        md="4"
+                        md="5"
                       >
                         <v-text-field
                           v-model="editedItem.purchase_price"
                           label="precio de compra"
                         ></v-text-field>
+                      </v-col>
+                      <v-col
+                        cols="12"
+                        sm="6"
+                        md="5"
+                      > 
                         <v-text-field
                           v-model="editedItem.public_price"
                           label="precio de venta"
@@ -196,23 +202,6 @@
                 { text: "unidades", value: "units" },
                 { text: 'Actions', value: 'actions', sortable: false },
             ],
-            "aaa": [
-            {
-                "id": 1,
-                "productid": "1231",
-                "description": "pantalla",
-                "units": 2,
-                "purchase_price": 22,
-                "public_price": 44
-            },
-            {
-                "id": 2,
-                "productid": "12333",
-                "description": "raton",
-                "units": 22,
-                "purchase_price": 12,
-                "public_price": 33
-            }],
             desserts: [],
             textFinder: "",
             editedIndex: -1,
