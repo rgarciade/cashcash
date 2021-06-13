@@ -83,3 +83,11 @@ a {
 .fixedmenu{
   position: fixed;
 }
+/* Articles */
+
+.articles_finder{
+  margin: 10px;
+}
+.new_article{
+  margin: 10px;
+}

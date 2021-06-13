@@ -3,103 +3,171 @@
     <div style="-webkit-app-region: drag">
       <v-card>
         <v-card-title class="headline primary lighten-3">Articulos</v-card-title>
-      </v-card>
-      <v-text-field
-        v-on:keyup="findArticles({ textFinder : textFinder, findAll: true})"
-        label="Solo"
-        placeholder="Buscar"
-        solo
-        v-model="textFinder"
-      ></v-text-field>
+      </v-card> 
     </div>
-    <v-toolbar flat color="white">
-      <v-spacer></v-spacer>
-      <v-dialog v-model="dialog" max-width="70%">
-        <template v-slot:activator="{ on }">
+    <div class='articles_finder'>
+      <v-text-field
+            v-model="textFinder"
+            label=""
+            
+            solo
+      >
+        <v-icon
+            slot="prepend"
+            color="primary"
+            @click="findArticles(textFinder)"
+        >
+            mdi-magnify
+        </v-icon>
+      </v-text-field>
+    </div>
+    <div>
+      <v-data-table
+        :headers="headers"
+        :items="articles.data"
+        sort-by="description"
+        class="elevation-1"
+      >
+        <template v-slot:top>
+            <v-spacer></v-spacer>
+            <v-dialog
+              v-model="dialog"
+              max-width="500px"
+            > 
+            
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  color="primary"
+                  dark
+                  class="new_article"
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  Nuevo Articulo
+                </v-btn>
+              </template>
+              <v-card>
+                <v-card-title>
+                  <span class="text-h5">{{ formTitle }}</span>
+                </v-card-title>
+    
+                <v-card-text>
+                  <v-container>
+                    <v-row>
+                      <v-col
+                        cols="12"
+                        sm="6"
+                        md="4"
+                      >
+                        <v-text-field
+                          v-model="editedItem.productid"
+                          label="Id del producto"
+                        ></v-text-field>
+                      </v-col>
+                      <v-col
+                        cols="12"
+                        sm="6"
+                        md="4"
+                      >
+                        <v-text-field
+                          v-model="editedItem.description"
+                          label="description"
+                        ></v-text-field>
+                      </v-col>
+                      <v-col
+                        cols="12"
+                        sm="6"
+                        md="4"
+                      >
+                        <v-text-field
+                          v-model="editedItem.units"
+                          label="unidades"
+                        ></v-text-field>
+                      </v-col>
+                      <v-col
+                        cols="12"
+                        sm="6"
+                        md="4"
+                      >
+                        <v-text-field
+                          v-model="editedItem.purchase_price"
+                          label="precio de compra"
+                        ></v-text-field>
+                        <v-text-field
+                          v-model="editedItem.public_price"
+                          label="precio de venta"
+                        ></v-text-field>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                </v-card-text>
+    
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    color="blue darken-1"
+                    text
+                    @click="close"
+                  >
+                    Cancel
+                  </v-btn>
+                  <v-btn
+                    color="blue darken-1"
+                    text
+                    @click="save"
+                  >
+                    Save
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+            <v-dialog v-model="dialogDelete" max-width="500px">
+              <v-card>
+                <v-card-title class="text-h5">Are you sure you want to delete this item?</v-card-title>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="blue darken-1" text @click="closeDelete">Cancel</v-btn>
+                  <v-btn color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>
+                  <v-spacer></v-spacer>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+          </v-toolbar>
+        </template>
+        <template v-slot:item.units="{ item }">
+          <v-chip
+            :color="getColor(item.units)"
+            dark
+          >
+            {{ item.units }}
+          </v-chip>
+        </template>
+        <template v-slot:item.actions="{ item }">
+          <v-icon
+            small
+            class="mr-2"
+            @click="editItem(item)"
+          >
+            mdi-pencil
+          </v-icon>
+          <v-icon
+            small
+            @click="deleteItem(item)"
+          >
+            mdi-delete
+          </v-icon>
+        </template>
+        <template v-slot:no-data>
           <v-btn
             color="primary"
-            @click="statusNewItem(true)"
-            dark
-            class="mb-2"
-            v-on="on"
-          >Nuevo Articulo</v-btn>
+            @click="initialize"
+          >
+            Reset
+          </v-btn>
         </template>
-        <v-card>
-          <v-card-title>
-            <span class="headline">{{ formTitle }}</span>
-          </v-card-title>
-          <v-card-text>
-            <v-container grid-list-md>
-              <v-layout wrap>
-                <v-flex xs12 sm5 md2>
-                  <v-text-field
-                    v-model="editedItem.productid"
-                    label="Id del prroducto"
-                    :rules="idMaxLength"
-                    validate-on-blur
-                  ></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm3 md2>
-                  <v-text-field v-model="editedItem.units" label="unidades"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm4 md4>
-                  <v-text-field v-model="editedItem.purchase_price" label="precio de compra sin iva"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm4 md3>
-                  <v-text-field v-model="editedItem.public_price_without_vat" label="precio de venta sin iva" disabled ></v-text-field>
-                </v-flex>
-              </v-layout>
-              <v-layout wrap>
-                <v-flex xs12 sm8 md4>
-                  <v-text-field v-model="editedItem.description" label="Descripción"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm4 md4>
-                  <v-text-field
-                    v-model="editedItem.price_without_vat"
-                    disabled
-                    label="precio de compra con iva"
-                  ></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm4 md3>
-                  <v-text-field v-model="editedItem.public_price" label="precio de venta con iva"></v-text-field>
-                </v-flex>
+      </v-data-table>
+    </div>
 
-              </v-layout>
-            </v-container>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" flat @click="close">Cancelar</v-btn>
-            <v-btn color="blue darken-1" flat @click="save">Guardar</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </v-toolbar>
-
-    <v-data-table
-      :headers="headers"
-      :items="articles"
-      class="elevation-1 remove_radius"
-      :rows-per-page-items="rowsPerPage"
-      rows-per-page-text="Listados por pagina"
-    >
-      <template v-slot:items="props">
-        <td>{{ props.item.productid }}</td>
-        <td>{{ props.item.description }}</td>
-        <td>{{ props.item.price_without_vat }}</td>
-        <td>{{ props.item.purchase_price }}</td>
-        <td>{{ props.item.public_price }}</td>
-        <td>{{ config.vat}}</td>
-        <td>
-          <input type="number" />
-          {{ props.item.units }}
-        </td>
-        <td class="justify-center layout px-0 actions_icons">
-          <v-icon small class="mr-2" @click="editItem(props.item)">edit</v-icon>
-          <v-icon small @click="deleteItem(props.item)">delete</v-icon>
-        </td>
-      </template>
-    </v-data-table>
   </div>
 </template>
 <script>
@@ -121,13 +189,30 @@
             headers: [
                 { text: "Id Articulo", value: "productid" },
                 { text: "Descripción", value: "description" },
-                { text: "Precio sin iva", value: "price_without_vat" },
+              /*   { text: "Precio sin iva", value: "price_without_vat" }, */
                 { text: "Precio de compra", value: "purchase_price" },
                 { text: "Precio de venta", value: "public_price" },
-                { text: "iva", value: "iva" },
+           /*      { text: "iva", value: "iva" }, */
                 { text: "unidades", value: "units" },
-                { text: "Acciones", value: "name", sortable: false }
+                { text: 'Actions', value: 'actions', sortable: false },
             ],
+            "aaa": [
+            {
+                "id": 1,
+                "productid": "1231",
+                "description": "pantalla",
+                "units": 2,
+                "purchase_price": 22,
+                "public_price": 44
+            },
+            {
+                "id": 2,
+                "productid": "12333",
+                "description": "raton",
+                "units": 22,
+                "purchase_price": 12,
+                "public_price": 33
+            }],
             desserts: [],
             textFinder: "",
             editedIndex: -1,
@@ -149,9 +234,19 @@
                 public_price: null
             }
         }),
+        computed: Object.assign({}, mapState(["articles","config"]), {
+          formTitle() {
+            return this.editedIndex === -1 ? "Nuevo artículo" : "Editar Articulo";
+          }
+        }),
         methods: Object.assign(
           {},
-          mapActions(['allArticles'])
+          mapActions(['allArticles','findArticles']),
+          {
+             getColor(number){
+               return number? 'green' : 'red'
+             }
+          }
         ),
         async mounted() {
           this.allArticles()

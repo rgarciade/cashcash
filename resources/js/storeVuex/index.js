@@ -17,14 +17,19 @@ export default new Vuex.Store({
             telephone: '',
             email: ''
         },
-        articles: [{
-            productid: null,
-            description: null,
-            units: null,
-            purchase_price: null,
-            price_without_vat: null,
-            public_price: null
-		}],
+        articles: {
+            data: [{
+                productid: null,
+                description: null,
+                units: null,
+                purchase_price: null,
+                price_without_vat: null,
+                public_price: null
+            }],
+            articlesPerPage:0,
+            currentPage:1,
+            lastPage:1
+        },
 		moneyBox:{
 			actualMoneyInBox : 0,
 			actualMoneyCard : 0,

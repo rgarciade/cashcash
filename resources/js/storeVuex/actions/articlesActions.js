@@ -5,9 +5,10 @@ const articlesActions = {
         //debugger
             const text = (args != undefined && args.hasOwnProperty('textFinder'))? args.textFinder : ""
             try {
+                
                 store.commit("charging")
                 httpRequest.get('articles').then(resp =>{
-                    //debugger
+                    store.commit('articles', resp.data)
                     console.log('okk',resp)
                 })
                 .catch(err =>{
@@ -21,13 +22,14 @@ const articlesActions = {
                 }else if (text == "") {
                     store.commit('articles', [])
                 } */
-                store.commit('charged')
+               // store.commit('charged')
             } catch (error) {
                 console.error(error)
             }
     },
-    findArticles( store, args ){
-        const text = (args != undefined && args.hasOwnProperty('textFinder'))? args.textFinder : ""
+    findArticles( store, textFinder ){
+        debugger
+        console.log(textFinder)
     }
 }
 module.exports =  articlesActions
