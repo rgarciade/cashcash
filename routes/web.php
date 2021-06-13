@@ -1,12 +1,5 @@
 <?php
-
-use App\Models\Articles;
-use App\Models\Contacts;
-use App\Models\Sales;
-use App\Models\Facturations;
-use App\Models\FacturationsArticles;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\DB;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,8 +11,8 @@ use Illuminate\Support\Facades\DB;
 |
 */
 
+/* try {
 Route::get('/', function () {
-   /* try {
 
         //dd(Articles::where('productid',12317)->get());
         /* funciona
@@ -40,6 +33,10 @@ Route::get('/', function () {
         dd('holii');
     } catch (\Exception $e) {
         dd("Could not connect to the database.  Please check your configuration. error:" . $e );
-    }*/
-    return view('welcome');
-});
+        return view('welcome');
+    });
+}*/
+
+Route::get('/',[App\Http\Controllers\web\indexController::class,'index']);
+Route::get('/Articles',[App\Http\Controllers\web\indexController::class,'index']);
+Route::get('/aaa',[App\Http\Controllers\web\indexController::class,'index']);

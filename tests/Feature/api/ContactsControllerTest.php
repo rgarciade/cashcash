@@ -83,11 +83,38 @@ class ContactsControllerTest extends TestCase {
     /**
      * @test
     */
+    public function post_insert_contact_json_error(){
+        DB::beginTransaction();
+        $response = $this->post('/api/contacs',[
+            "companys_id" => 'faafsa'
+        ]);
+        $response->assertStatus(200);
+        $response->assertJson(function (AssertableJson $json) {
+            $json->where('msg','error when create contac')
+            ->where('code',500)
+            ->has('data');
+        });
+        $response = $this->post('/api/contacs',[
+            "companys_id" => 'faafsa',
+            "email" => 'asfafsa',
+            "name" => 'asfafa'
+        ]);
+        $response->assertStatus(200);
+        $response->assertJson(function (AssertableJson $json) {
+            $json->where('msg',"sql insert Error, chech values")
+            ->where('code',500)
+            ->has('data');
+        });
+
+        DB::rollBack();
+    }
+    /**
+     * @test
+    */
     public function delete_contact_from_contact_id_json(){
         DB::beginTransaction();
         $id = 2;
-        $contacts = new ContactsBbdd();
-        $this->assertEquals(1,count($contacts->getFromId($id)));
+        $this->assertEquals(1,count(ContactsBbdd::getFromId($id)));
         $responseDelete = $this->delete("/api/contacs/${id}");
         $responseDelete->assertJson(function (AssertableJson $json) {
             $json->has('msg')
@@ -95,6 +122,22 @@ class ContactsControllerTest extends TestCase {
             ->where('code',200);
         });
         $this->assertEquals(0,count(Contacts::where('id',$id)->get()));
+
+        DB::rollBack();
+    }
+    /**
+     * @test
+    */
+    public function delete_contact_from_contact_id_json_error(){
+        DB::beginTransaction();
+        $id = 200;
+        $this->assertEquals(0,count(ContactsBbdd::getFromId($id)));
+        $responseDelete = $this->delete("/api/contacs/${id}");
+        $responseDelete->assertJson(function (AssertableJson $json) {
+            $json->where('msg','sql delete Error, chech id')
+            ->where('code',500)
+            ->has('data');
+        });
 
         DB::rollBack();
     }

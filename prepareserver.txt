@@ -1,5 +1,12 @@
 lanzar server    php artisan serve --host=localhost --port=8000
 lanzar tests     php artisan test tests
+
+montar vue 
+    sail composer update
+    sail composer require laravel/ui
+    sail artisan ui vue
+    sail npm install && npm run dev
+
 docker
 - cd docker-compose
 
