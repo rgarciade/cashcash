@@ -23,6 +23,17 @@ class ArticlesControllerTest extends TestCase {
     /**
      * @test
      */
+    public function get_articles_paginate_json(){
+
+        $response = $this->get('/api/articles/paginate=20');
+        $jsonArticles = file_get_contents(__DIR__."/testJsons/getAllArticlesPaginate.json");
+        $expectedResponse = json_decode($jsonArticles,true);
+
+        $response->assertExactJson($expectedResponse);
+    }
+    /**
+     * @test
+     */
     public function get_articles_json(){
 
         $response = $this->get('/api/articles');

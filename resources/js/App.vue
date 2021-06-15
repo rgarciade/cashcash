@@ -1,9 +1,9 @@
 <template>
   <v-app>
-    <Menu class="Mymenu" ></Menu>
-    <Alerts></Alerts>
-    <Progress :active="true"></Progress>
-    <router-view class='routerView' default="{name: 'home'}"></router-view>
+    <Menu class="Mymenu"/>
+    <AlertsList class="alets"/>
+    <Progress :active="true"/>
+    <router-view class='routerView' default="{name: 'home'}"/>
   </v-app>
 </template>
 

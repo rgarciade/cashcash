@@ -5,11 +5,11 @@ import App from './App.vue'
 import store from "./storeVuex"
 import Menu from './components/Menu';
 import progress from './components/progress';
-import Alerts from './components/alerts';
+import alertsList from './components/alertsList';
 
 Vue.component('Menu', Menu)
 Vue.component('Progress', progress)
-Vue.component('Alerts', Alerts)
+Vue.component('AlertsList', alertsList)
 
 new Vue({
     vuetify,

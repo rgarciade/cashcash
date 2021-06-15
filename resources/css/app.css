@@ -94,3 +94,13 @@ a {
 .modal_article{
   z-index: 100;
 }
+
+/* alert */
+.alet{
+  
+}
+.alets{
+  z-index: 100;
+  margin: 10px;
+  position:absolute
+}

@@ -9,8 +9,11 @@ use Illuminate\Http\Request;
 
 
 class ArticlesController extends ApiResponseController {
-    public function allArticles(){
-        return $this->successResponse(ArticlesBbdd::getAllPaginator(20),200);
+    public function allArticles($paginate = null){
+        
+        return $this->successResponse(
+            ($paginate)? ArticlesBbdd::getAllPaginator($paginate) : ArticlesBbdd::getAll()
+            ,200);
     }
     public function getArticle($id){
 

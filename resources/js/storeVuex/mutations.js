@@ -13,11 +13,24 @@ const mutations = {
         setTimeout(function(){  state.alert = msg }, 100);
        
     },
+    /* 
+        msg : {message,type}
+     */
+    alerts(state, msg) {
+        if(!msg.type) msg.type = "success" 
+        state.alerts.push({
+            id: (Math.random().toString(36) + Date.now().toString(36)).substr(2),
+            type: msg.type,
+            message:msg.message
+        })
+    },
+    removeAlert(state,id){
+        state.alerts = state.alerts.filter(alet => {
+            return alet.id != id
+        })
+    },
     articles(state, articlesResponse) {       
-        state.articles.data = articlesResponse.data.data
-        state.articles.articlesPerPage = articlesResponse.data.per_page
-        state.articles.currentPage = articlesResponse.data.current_page
-        state.articles.lastPage = articlesResponse.data.last_page
+        state.articles = articlesResponse
     }
 }
 

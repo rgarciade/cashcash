@@ -4,9 +4,9 @@ const createAlert = (store, text) => {
     store.commit('alert', text)
 }
 const actions = {
-    generateAlert(store, text){
-		createAlert(store,text)
-	},
+    removeAlert(store, id){
+        this.commit('removeAlert', id)
+    },
     ...articlesActions
 
 }

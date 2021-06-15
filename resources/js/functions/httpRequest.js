@@ -7,7 +7,6 @@ class httpRequest {
             store.commit('charging')
             axios.post(`${this.baseUrl}/${url}`, data)
                 .then(function (response) {
-                    debugger
                     if(response.data.code != 200) reject(response)
                     resolver(response)
                     store.commit('charged')
