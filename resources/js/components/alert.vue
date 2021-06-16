@@ -4,8 +4,7 @@
         v-model="alertData"
         border="left"
         margin-left='20%'
-        dismissible
-        type="error">
+        :type="alertData.type">
         {{alertData.message}}
       </v-alert>
     </div>
@@ -30,7 +29,7 @@
         created(){
           this.timeout = setTimeout(() => {
             this.removeAlert(this.alertData.id)
-          }, 4000);
+          }, (this.alertData.message.length > 60)? 10000:3000);
         },
         beforeDestroy(){
           clearTimeout(this.timeout)

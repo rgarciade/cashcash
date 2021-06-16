@@ -12,7 +12,6 @@ const articlesActions = {
                 })               
             } catch (error) {
                 console.error(error)
-                
                 this.commit('alert', 'error al cargar los articulos')
             }
     },
@@ -23,7 +22,12 @@ const articlesActions = {
         })
         .catch(err =>{
             console.log('error',err)
-            this.commit('alerts', 'error al cargar los articulos')
+            let message = (err.data.msg)? err.data.msg : 'error al cargar los articulos'
+            let type = (err.data.msg)? 'info': 'error'
+            this.commit('alerts', {
+                message,
+                type
+            })
         })
     },
     saveArticles( store, args ){
@@ -34,9 +38,23 @@ const articlesActions = {
             })
         })
         .catch(err =>{
+            debugger
             console.log('error',err)
+            let message = []
+            let messageText = 'error al crear el articulo:'
+            //let 
+            if(err.data && err.data.msg) message.push(err.data.msg) 
+            if(err.data && err.data.data  ){
+                for (const key in err.data.data) {
+                    message.push(`${key}: ${err.data.data[key]}`);
+                }
+               
+             }
+            if(message.length > 0){
+                messageText = message.join('/n')
+            }
             this.commit('alerts', {
-                message:`error al crear el articulo`,
+                message:messageText,
                 type:'error'
             })
         })

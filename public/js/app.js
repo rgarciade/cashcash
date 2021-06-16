@@ -2067,7 +2067,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'alert',
@@ -2089,7 +2088,7 @@ __webpack_require__.r(__webpack_exports__);
 
     this.timeout = setTimeout(function () {
       _this.removeAlert(_this.alertData.id);
-    }, 4000);
+    }, this.alertData.message.length > 60 ? 10000 : 3000);
   },
   beforeDestroy: function beforeDestroy() {
     clearTimeout(this.timeout);
@@ -2810,8 +2809,13 @@ var articlesActions = {
       store.commit('articles', resp.data);
     })["catch"](function (err) {
       console.log('error', err);
+      var message = err.data.msg ? err.data.msg : 'error al cargar los articulos';
+      var type = err.data.msg ? 'info' : 'error';
 
-      _this.commit('alerts', 'error al cargar los articulos');
+      _this.commit('alerts', {
+        message: message,
+        type: type
+      });
     });
   },
   saveArticles: function saveArticles(store, args) {
@@ -2823,10 +2827,25 @@ var articlesActions = {
         type: 'success'
       });
     })["catch"](function (err) {
+      debugger;
       console.log('error', err);
+      var message = [];
+      var messageText = 'error al crear el articulo:'; //let 
+
+      if (err.data && err.data.msg) message.push(err.data.msg);
+
+      if (err.data && err.data.data) {
+        for (var key in err.data.data) {
+          message.push("".concat(key, ": ").concat(err.data.data[key]));
+        }
+      }
+
+      if (message.length > 0) {
+        messageText = message.join('/n');
+      }
 
       _this2.commit('alerts', {
-        message: "error al crear el articulo",
+        message: messageText,
         type: 'error'
       });
     });
@@ -26677,8 +26696,7 @@ var render = function() {
           attrs: {
             border: "left",
             "margin-left": "20%",
-            dismissible: "",
-            type: "error"
+            type: _vm.alertData.type
           },
           model: {
             value: _vm.alertData,
