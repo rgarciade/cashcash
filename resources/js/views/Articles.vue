@@ -45,6 +45,16 @@
                 >
                   Nuevo Articulo
                 </v-btn>
+                <v-btn
+                  color="primary"
+                  dark
+                  class="new_article"
+                  @click="allArticles()"
+                >
+                        <v-icon dark>
+        mdi-reload
+      </v-icon>
+                </v-btn>
               </template>
               <v-card class="modal_article">
                 <v-card-title>
@@ -178,6 +188,7 @@
 </template>
 <script>
   import { mapState, mapActions } from "vuex";
+  import _ from 'lodash';
   import { basePrice, addIvaToPrice,  checkInputs } from "../functions/commonfunctions";
     export default {
         name: "articles",
@@ -192,6 +203,7 @@
                 { text: "$vuetify.dataIterator.rowsPerPageAll", value: -1 }
             ],
             dialog: false,
+            dialogDelete:false,
             headers: [
                 { text: "Id Articulo", value: "productid" },
                 { text: "Descripción", value: "description" },
@@ -228,6 +240,11 @@
             return this.editedIndex === -1 ? "Nuevo artículo" : "Editar Articulo";
           }
         }),
+        watch: {
+          textFinder(str,ss) {
+            this.findArticles(str)
+          } 
+        },
         methods: Object.assign(
           {},
           mapActions(['allArticles','findArticles','saveArticles']),

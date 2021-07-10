@@ -2,7 +2,7 @@
   <v-app>
     <Menu class="Mymenu"/>
     <AlertsList class="alets"/>
-    <Progress :active="true"/>
+    <ProgressBar :active="true"/>
     <router-view class='routerView' default="{name: 'home'}"/>
   </v-app>
 </template>

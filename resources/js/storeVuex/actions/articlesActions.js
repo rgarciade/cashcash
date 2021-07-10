@@ -3,7 +3,6 @@ const {httpRequest} = require('../../functions/httpRequest')
 const articlesActions = {
     allArticles( store ) {
             try {
-        
                 httpRequest.get('articles').then(resp =>{
                     store.commit('articles', resp.data)
                 })
@@ -16,7 +15,12 @@ const articlesActions = {
             }
     },
     findArticles( store, textFinder ){
-        if(textFinder == '') return
+        if(textFinder == ''){
+            this.dispatch('allArticles')
+            return true
+        }else if(textFinder.length < 3){
+            return false
+        }
         httpRequest.get(`articles/find=${textFinder}`).then(resp =>{
             store.commit('articles', resp.data)
         })

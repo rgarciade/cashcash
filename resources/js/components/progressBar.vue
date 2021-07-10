@@ -9,7 +9,7 @@
 <script>
     import { mapState } from "vuex"
     export default {
-        name: 'progress',
+        name: 'progressBar',
         computed: mapState(["progresActive"])
     }
 </script>
