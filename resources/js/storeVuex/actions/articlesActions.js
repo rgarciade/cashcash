@@ -63,7 +63,37 @@ const articlesActions = {
             })
         })
     },
-    /**¡
+    updateArticles( store, args ){
+        debugger
+        httpRequest.path(`articles/${args.id}`,args).then(resp =>{
+            debugger
+            this.commit('alerts', {
+                message:'articulo Actualizado',
+                type:'success'
+            })
+        })
+        .catch(err =>{
+            debugger
+            console.log('error',err)
+            let message = []
+            let messageText = 'error al actualizar el articulo:'
+            //let 
+            if(err.data && err.data.msg) message.push(err.data.msg) 
+            if(err.data && err.data.data){
+                for (const key in err.data.data) {
+                    message.push(`${key}: ${err.data.data[key]}`);
+                }
+             }
+            if(message.length > 0){
+                messageText = message.join('/n')
+            }
+            this.commit('alerts', {
+                message:messageText,
+                type:'error'
+            })
+        })
+    },
+    /**
      * args: {
      *  id,
      *  textFinder
@@ -72,9 +102,17 @@ const articlesActions = {
     deleteAndRechargeArticles( store, args ){
         httpRequest.delete(`articles/${args.id}`).then(resp =>{
             this.dispatch('findArticles',args.textFinder)
+            this.commit('alerts', {
+                message:'articulo Eliminado',
+                type:'success'
+            })
         })
         .catch(err =>{
             this.dispatch('findArticles',args.textFinder)
+            this.commit('alerts', {
+                message:'Error al eliminar el articulo',
+                type:'error'
+            })
         })
     }
 }

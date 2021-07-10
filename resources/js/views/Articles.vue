@@ -51,9 +51,9 @@
                   class="new_article"
                   @click="allArticles()"
                 >
-                        <v-icon dark>
-        mdi-reload
-      </v-icon>
+                  <v-icon dark>
+                    mdi-reload
+                  </v-icon>
                 </v-btn>
               </template>
               <v-card class="modal_article">
@@ -130,7 +130,7 @@
                   <v-btn
                     color="blue darken-1"
                     text
-                    @click="saveArticleDialog"
+                    @click="save"
                   >
                     Save
                   </v-btn>
@@ -248,7 +248,7 @@
         },
         methods: Object.assign(
           {},
-          mapActions(['allArticles','findArticles','saveArticles','deleteAndRechargeArticles']),
+          mapActions(['allArticles','findArticles','saveArticles','updateArticles','deleteAndRechargeArticles']),
           {
             getColor(number){
               return number? 'green' : 'red'
@@ -259,6 +259,12 @@
                 this.editedItem = Object.assign({}, this.defaultItem)
                 this.editedIndex = -1
               })
+            },
+            editItem(item) {
+              debugger
+              this.editedIndex = this.articles.data.indexOf(item);
+              this.editedItem = Object.assign({}, item);
+              this.dialog = true;
             },
             openDeleteItem(item){
               this.itemToDelete = item
@@ -279,6 +285,17 @@
               await this.saveArticles(this.editedItem)
               await this.allArticles()
               this.closeDialog()
+            },
+            async save(){
+              debugger
+              if(this.editedIndex == -1){
+                this.saveArticleDialog()
+              }else{
+                await this.updateArticles(this.editedItem)
+                debugger
+                await this.findArticles(this.textFinder)
+                this.closeDialog()
+              }
             }
           }
         ),

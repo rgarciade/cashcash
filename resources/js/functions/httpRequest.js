@@ -17,6 +17,21 @@ class httpRequest {
                 })
         })
     }
+    static path (url,data){
+        return new Promise((resolver, reject) => {
+            store.commit('charging')
+            axios.patch(`${this.baseUrl}/${url}`, data)
+                .then(function (response) {
+                    if(response.data.code != 200) reject(response)
+                    resolver(response)
+                    store.commit('charged')
+                })
+                .catch(function (error) {
+                    reject(error)
+                    store.commit('charged')
+                })
+        })
+    }
     static get(url){
         return new Promise((resolver, reject) => {
             store.commit('charging')
