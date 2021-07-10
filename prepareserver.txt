@@ -1,6 +1,10 @@
 lanzar server    php artisan serve --host=localhost --port=8000
 lanzar tests     php artisan test tests
 
+
+
+sail lanzar js watch
+    sail npm run watch
 montar vue 
     sail composer update
     sail composer require laravel/ui

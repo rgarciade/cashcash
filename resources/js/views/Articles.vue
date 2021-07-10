@@ -137,13 +137,13 @@
                 </v-card-actions>
               </v-card>
             </v-dialog>
-            <v-dialog v-model="dialogDelete" max-width="500px">
+            <v-dialog v-model="dialogDelete" max-width="510px">
               <v-card>
                 <v-card-title class="text-h5">Are you sure you want to delete this item?</v-card-title>
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn color="blue darken-1" text @click="closeDelete">Cancel</v-btn>
-                  <v-btn color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>
+                  <v-btn color="blue darken-1" text @click="closeDeleteModal">Cancel</v-btn>
+                  <v-btn color="blue darken-1" text @click="deleteArticles()">OK</v-btn>
                   <v-spacer></v-spacer>
                 </v-card-actions>
               </v-card>
@@ -168,7 +168,7 @@
           </v-icon>
           <v-icon
             small
-            @click="deleteItem(item)"
+            @click="openDeleteItem(item)"
           >
             mdi-delete
           </v-icon>
@@ -233,7 +233,8 @@
                 purchase_price: null,
                 price_without_vat: 0,
                 public_price: null
-            }
+            },
+            itemToDelete:{}
         }),
         computed: Object.assign({}, mapState(["articles","config"]), {
           formTitle() {
@@ -247,17 +248,32 @@
         },
         methods: Object.assign(
           {},
-          mapActions(['allArticles','findArticles','saveArticles']),
+          mapActions(['allArticles','findArticles','saveArticles','deleteAndRechargeArticles']),
           {
-             getColor(number){
-               return number? 'green' : 'red'
-             },
+            getColor(number){
+              return number? 'green' : 'red'
+            },
             closeDialog() {
               this.dialog = false
               this.$nextTick(() => {
                 this.editedItem = Object.assign({}, this.defaultItem)
                 this.editedIndex = -1
               })
+            },
+            openDeleteItem(item){
+              this.itemToDelete = item
+              this.dialogDelete = true
+            },
+            deleteArticles(){
+              this.deleteAndRechargeArticles({
+                id: this.itemToDelete.id,
+                textFinder: this.textFinder
+              })
+              this.closeDeleteModal()
+            },
+            closeDeleteModal(){
+              this.dialogDelete = false
+              this.itemToDelete = {}
             },
             async saveArticleDialog() {
               await this.saveArticles(this.editedItem)

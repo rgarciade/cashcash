@@ -62,6 +62,20 @@ const articlesActions = {
                 type:'error'
             })
         })
+    },
+    /**¡
+     * args: {
+     *  id,
+     *  textFinder
+     * }
+     */
+    deleteAndRechargeArticles( store, args ){
+        httpRequest.delete(`articles/${args.id}`).then(resp =>{
+            this.dispatch('findArticles',args.textFinder)
+        })
+        .catch(err =>{
+            this.dispatch('findArticles',args.textFinder)
+        })
     }
 }
 module.exports =  articlesActions

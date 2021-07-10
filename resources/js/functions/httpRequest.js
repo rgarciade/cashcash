@@ -32,5 +32,20 @@ class httpRequest {
                 })
         })
     }
+    static delete(url){
+        return new Promise((resolver, reject) => {
+            store.commit('charging')
+            axios.delete(`${this.baseUrl}/${url}`)
+                .then(function (response) {
+                    if(response.data.code != 200) reject(response)
+                    resolver(response)
+                    store.commit('charged')
+                })
+                .catch(function (error) {
+                    reject(error)
+                    store.commit('charged')
+                })
+        })
+    }
 }
 export  { httpRequest }
