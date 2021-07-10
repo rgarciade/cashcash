@@ -1,11 +1,12 @@
 <template>
     <div>
       <v-alert
-        v-model="alertData"
         border="left"
         margin-left='20%'
-        :type="alertData.type">
-        {{alertData.message}}
+        :value="true"
+        :type="alertData.type"
+      >  
+        {{alertData.message}} 
       </v-alert>
     </div>
 </template>
