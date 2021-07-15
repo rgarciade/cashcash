@@ -36,7 +36,12 @@ Route::get('/', function () {
         return view('welcome');
     });
 }*/
-
-Route::get('/',[App\Http\Controllers\web\indexController::class,'index']);
-Route::get('/Articles',[App\Http\Controllers\web\indexController::class,'index']);
-Route::get('/aaa',[App\Http\Controllers\web\indexController::class,'index']);
+$vueComonRoutes = [
+    'aaa',
+    '/',
+    '/Articles',
+    '/CompanyFinder'
+];
+foreach ($vueCommonRoutes as $route) {
+    Route::get($route,[App\Http\Controllers\web\indexController::class,'index']);
+}
