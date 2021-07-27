@@ -42,6 +42,6 @@ $vueComonRoutes = [
     '/Articles',
     '/CompanyFinder'
 ];
-foreach ($vueCommonRoutes as $route) {
+foreach ($vueComonRoutes as $route) {
     Route::get($route,[App\Http\Controllers\web\indexController::class,'index']);
 }

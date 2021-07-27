@@ -71,6 +71,15 @@ class CompanysControllerTest extends TestCase {
     /**
      * @test
     */
+    public function get_company_fom_name_json(){
+        $response = $this->get('/api/companys/someField/Empresa');
+        $jsonArticles = file_get_contents(__DIR__."/testJsons/getCompanyPaginated.json");
+        $expectedResponse = json_decode($jsonArticles,true);
+        $response->assertExactJson($expectedResponse);
+    }
+    /**
+     * @test
+    */
     public function get_company_json_error(){
         DB::beginTransaction();
         $companyId = 12;

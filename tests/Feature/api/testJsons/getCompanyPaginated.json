@@ -1,0 +1,84 @@
+{
+    "code": 200,
+    "data": {
+        "current_page": 1,
+        "data": [
+            {
+                "banck": "BN12411",
+                "cif": "33619622t",
+                "city": "madrid",
+                "contact": "jose",
+                "contacts": [
+                    {
+                        "companys_id": 3,
+                        "email": "awawaw@wwg.com",
+                        "facturacion": 14241,
+                        "id": 2,
+                        "location": "callejuela",
+                        "name": "pepon",
+                        "telephone": "888888888"
+                    }
+                ],
+                "cta": null,
+                "email": "eso@mm.com",
+                "id": 3,
+                "location": "ggg",
+                "mobile": "45454545454",
+                "name": "LA Empresa",
+                "notas": "fafsafa",
+                "postalcode": "28231",
+                "province": "madrid",
+                "state": "madrid",
+                "street": "calleee1",
+                "telephone": "656511156"
+            },
+            {
+                "banck": "BN12413",
+                "cif": "23619612t",
+                "city": "madrid",
+                "contact": "ana",
+                "contacts": [],
+                "cta": null,
+                "email": "fff@mm.com",
+                "id": 4,
+                "location": "ggg",
+                "mobile": "45454545454",
+                "name": "Tu Empresa",
+                "notas": "fafsafa",
+                "postalcode": "28231",
+                "province": "madrid",
+                "state": "madrid",
+                "street": "calleee2",
+                "telephone": "656511156"
+            }
+        ],
+        "first_page_url": "http:\/\/cashcash.test\/api\/companys\/someField\/Empresa?page=1",
+        "from": 1,
+        "last_page": 1,
+        "last_page_url": "http:\/\/cashcash.test\/api\/companys\/someField\/Empresa?page=1",
+        "links": [
+            {
+                "active": false,
+                "label": "&laquo; Previous",
+                "url": null
+            },
+            {
+                "active": true,
+                "label": "1",
+                "url": "http:\/\/cashcash.test\/api\/companys\/someField\/Empresa?page=1"
+            },
+            {
+                "active": false,
+                "label": "Next &raquo;",
+                "url": null
+            }
+        ],
+        "next_page_url": null,
+        "path": "http:\/\/cashcash.test\/api\/companys\/someField\/Empresa",
+        "per_page": 20,
+        "prev_page_url": null,
+        "to": 2,
+        "total": 2
+    },
+    "msg": ""
+}

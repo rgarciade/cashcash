@@ -42,7 +42,6 @@ const articlesActions = {
             })
         })
         .catch(err =>{
-            debugger
             console.log('error',err)
             let message = []
             let messageText = 'error al crear el articulo:'
@@ -64,16 +63,13 @@ const articlesActions = {
         })
     },
     updateArticles( store, args ){
-        debugger
         httpRequest.path(`articles/${args.id}`,args).then(resp =>{
-            debugger
             this.commit('alerts', {
                 message:'articulo Actualizado',
                 type:'success'
             })
         })
         .catch(err =>{
-            debugger
             console.log('error',err)
             let message = []
             let messageText = 'error al actualizar el articulo:'

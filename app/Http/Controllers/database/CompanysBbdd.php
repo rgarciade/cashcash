@@ -20,4 +20,17 @@ class CompanysBbdd extends commonBbdd {
         }
         return $comps;
     }
+    public static function getFromMultiField($someField, $paginate){
+        $companys = new Companys();
+        $fillables = $companys->getFillable();
+        $query = static::$model::where($fillables[0], 'like', '%'.$someField.'%');
+        for ($i=1; $i < count($fillables); $i++) { 
+            $query->orWhere($fillables[$i], 'like', '%'.$someField.'%');
+        }
+        $comps = $query->paginate($paginate);
+        foreach ($comps as $comp) {
+            $comp->contacts;
+        }
+        return $comps;  
+    }
 }

@@ -10,21 +10,22 @@ use Illuminate\Http\Request;
 
 
 class CompanysController extends ApiResponseController {
-
+    private $paginate = 20;
     public function allCompanys(){
-        $comps = CompanysBbdd::getAllPaginator(20);
-        foreach ($comps as $comp) {
-            $comp->contacts;
-        }
+        $comps = CompanysBbdd::getAllPaginator($this->paginate);
         return $this->successResponse($comps,200);
     }
-    public function getCompany($id){
+    public function getCompanyById($id){
         $company = CompanysBbdd::getFromId($id);
         if(count($company) == 0){
             return $this->errorResponse('',500,"Company don't exist");
         }
         $company[0]->contacts;
         return $this->successResponse($company[0],200);
+    }
+    public function getCompanyByData($someField){
+        $company = CompanysBbdd::getFromMultiField($someField,$this->paginate);
+        return $this->successResponse($company,200);
     }
     public function newCompany(Request $req){
 
