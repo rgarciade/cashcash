@@ -123,7 +123,7 @@ class CompanysControllerTest extends TestCase {
             ->where('msg',"Company insertada correctamente")
             ->where('code',200);
         });
-        $responseNewData = $this->get('/api/companys/5');
+        $responseNewData = $this->get('/api/companys/4');
 
         $responseNewData->assertJson(function (AssertableJson $json) {
             $json->has('msg')
@@ -131,22 +131,23 @@ class CompanysControllerTest extends TestCase {
             ->where('code',200)
             ->has('data', function ($json) {
                 $json
-                ->where('id', 5)
-                ->where('cif', 'cifTest')
-                ->where('name', 'nameTest')
-                ->where('contact', 'contactTest')
-                ->where('location', 'locationTest')
-                ->where('telephone', 'telephoneTest')
-                ->where('email', 'emailTest')
-                ->where('street', 'streetTest')
-                ->where('city', 'cityTest')
-                ->where('province', 'provinceTest')
-                ->where('cta', 'ctaTest')
-                ->where('state', 'stateTest')
-                ->where('postalcode', 'postalcodeTest')
-                ->where('banck', 'banckTest')
-                ->where('mobile', 'mobileTest')
-                ->where('notas', 'notasTest')
+                ->where('id', 4)
+                ->where('cif', '23619612t')
+                ->where('name', 'Tu Empresa')
+                ->where('contact', 'ana')
+                ->where('location', 'ggg')
+                ->where('telephone', '656511156')
+                ->where('email', 'fff@mm.com')
+                ->where('street', 'calleee2')
+                ->where('city', 'madrid')
+                ->where('province', 'madrid')
+                ->where('cta', null)
+                ->where('state', 'madrid')
+                ->where('postalcode', '28231')
+                ->where('banck', 'BN12413')
+                ->where('mobile', '45454545454')
+                ->where('notas', 'fafsafa')
+                ->where('notas', 'fafsafa')
                 ->where('contacts',[]);
             });
         });
@@ -168,20 +169,7 @@ class CompanysControllerTest extends TestCase {
             ->has('data', function ($json) {
                 $json
                 ->where("cif", ["The cif field is required."])
-                ->where("name", ["The name field is required."])
-                ->where("contact", ["The contact field is required."])
-                ->where("location", ["The location field is required."])
-                ->where("telephone", ["The telephone field is required."])
-                ->where("email", ["The email field is required."])
-                ->where("street", ["The street field is required."])
-                ->where("city", ["The city field is required."])
-                ->where("province", ["The province field is required."])
-                ->where("cta", ["The cta field is required."])
-                ->where("state", ["The state field is required."])
-                ->where("postalcode", ["The postalcode field is required."])
-                ->where("banck", ["The banck field is required."])
-                ->where("mobile", ["The mobile field is required."])
-                ->where("notas", ["The notas field is required."]);
+                ->where("name", ["The name field is required."]);
             });
         });
         DB::rollBack();

@@ -1,64 +1,74 @@
 <?php
 namespace App\Http\Controllers\database;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Throwable;
 
 class commonBbdd implements InterfaceBbdd{
-    protected static $model = Model::class;
+    protected static string $model = Model::class;
 
     public static function getModel(){
         return static::$model;
     }
     /**
-     * @param array ['colum'=>'value']
+     * @param array ['column'=>'value']
      */
     public static function insert(array $values) : void{
         static::$model::insert($values);
     }
+
     /**
-     * @return all rows
+     * @return Collection
      */
-    public static function getAll() : \Illuminate\Database\Eloquent\Collection{
+    public static function getAll() : Collection{
         return static::$model::all();
     }
+
     /**
      * @param int number of rows for page
-     * @return all rows paginated
+     * @return LengthAwarePaginator
      */
-    public static function getAllPaginator( int $paginatorNumber) : \Illuminate\Pagination\LengthAwarePaginator{
+    public static function getAllPaginator( int $paginatorNumber) : LengthAwarePaginator{
         return static::$model::paginate($paginatorNumber);
     }
+
     /**
      * @param int table id
-     * @return row paginated
+     * @return Collection paginated
      */
-    public static function getFromId($id): \Illuminate\Database\Eloquent\Collection {
+    public static function getFromId($id): Collection {
         return static::$model::where('id',$id)->get();
     }
+
     /**
-     * @param string table colum
-     * @param value colum
+     * @param string table column
+     * @param value column
+     * @throws Throwable
      */
     public static function deleteFromColumAndValue($colum,$value) : void{
         try {
             $article = static::$model::where($colum,$value)->firstOrFail();
             $article->delete();
-        } catch (\Throwable $th) {
-            throw new \Exception("sql delete Error, chech $colum");
+        } catch (Throwable $th) {
+            throw new \Exception("sql delete Error, check $colum");
         }
     }
+
     /**
      * @param int table id
+     * @throws Throwable
      */
     public static function deleteFromId($id) : void{
         try {
             $article = static::$model::where('id',$id)->firstOrFail();
             $article->delete();
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             throw new \Exception('sql delete Error, chech id');
         }
     }
     /**
-     * @param array array colums and values ['colum'=>'value']
+     * @param array array colums and values ['column'=>'value']
      * @param in table id
      */
     public static function updateValue( array $values,$id) : \Illuminate\Database\Eloquent\Model{
@@ -67,12 +77,12 @@ class commonBbdd implements InterfaceBbdd{
         return $article;
     }
     /**
-     * @param array array colums and values ['colum'=>'value']
-     * @param string colum
+     * @param array array columns and values ['column'=>'value']
+     * @param string column
      * @param colum value
      */
-    public static function updateValueWhereColum( array $values,$colum,$value) : \Illuminate\Database\Eloquent\Model{
-        $article = static::$model::where($colum,$value)->firstOrFail();
+    public static function updateValueWhereColum(array $values, $column, $value) : \Illuminate\Database\Eloquent\Model{
+        $article = static::$model::where($column,$value)->firstOrFail();
         $article->update($values);
         return $article;
     }

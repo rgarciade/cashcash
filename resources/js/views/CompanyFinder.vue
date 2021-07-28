@@ -4,7 +4,7 @@
       <v-card>
         <v-card-title class="headline primary lighten-3">
           Empresas
-          <v-btn flat icon class="button_add_company" @click="activeNewCompany = true">
+          <v-btn icon class="button_add_company" @click="activeNewCompany = true">
             <v-icon>mdi-account-plus</v-icon>
           </v-btn>
         </v-card-title>
@@ -18,49 +18,47 @@
       ></v-text-field>
     </div>
     <div>
-      <v-layout
-        v-for="company in companys"
-        :key="company.name"
-        row
-        justify-space-around
-        style="margin-top: 1em"
-      >
-        <v-flex xs9>
-          <v-hover>
-            <v-card
-              color="blue-grey darken-2"
-              slot-scope="{ hover }"
-              :class="`elevation-${hover ? 24 : 2}`"
-              class="white--text"
-            >
-              <v-card-title primary-title>
-                <div>
-					<div class="headline">{{company.name}}</div>
-					<span>Id empresa: {{company.id}}</span>
-					<br>
-					<span>telefono: {{company.telephone}}</span>
-					<br>
-					<span>cif: {{company.cif}}</span>
-					<br>
-
+      <v-row>
+        <v-col
+          v-for="company in companys.data"
+          :key="company.id"
+          row
+          justify-space-around
+          style="margin: 1em"
+        >
+            <v-hover>
+              <v-card
+                color="blue-grey darken-2"
+                slot-scope="{ hover }"
+                min-width="24em"
+                :class="`elevation-${hover ? 24 : 2}`"
+                class="white--text"
+              >
+                <v-card-title primary-title>
+                    <div class="headline">{{company.name}}</div>
+                </v-card-title>
+                <v-card-text class="white--text">
+                  <div>
+                    <span>Id empresa: {{company.id}}</span>
+                    <br>
+                    <span>telefono: {{company.telephone}}</span>
+                    <br>
+                    <span>cif: {{company.cif}}</span>
+                    <br>
+                  </div>
+                 </v-card-text>
                   <v-card-actions>
-                    <v-btn flat color="orange" :href="`mailto:${company.email}`" icon>
-                      <v-icon>email</v-icon>
+                    <v-btn  color="orange" :href="`mailto:${company.email}`" dark>
+                      <v-icon>mdi-email</v-icon>
                     </v-btn>
-                    <router-link
-                      :to="{ name: 'conpanyconfiguration', params: { companyId: company.id}}"
-                    >
-                      <v-btn flat color="orange">ver</v-btn>
-                    </router-link>
+                    <v-btn  to="conpanyconfiguration" color="orange">ver</v-btn>
                   </v-card-actions>
-                </div>
-              </v-card-title>
-            </v-card>
-          </v-hover>
-        </v-flex>
-      </v-layout>
+              </v-card>
+            </v-hover>
+        </v-col>
+      </v-row>
     </div>
-    <Newcompany v-bind:active="activeNewCompany" @disable="activeNewCompany = $event "></Newcompany>
+    <NewCompany v-bind:active="activeNewCompany" @disable="activeNewCompany = $event "></NewCompany>
   </div>
 </template>
 
@@ -73,7 +71,8 @@ export default {
   },
   data() {
     return {
-      activeNewCompany: false
+      activeNewCompany: false,
+      textFinder:''
     };
   },
   computed: mapState(["companys"]),

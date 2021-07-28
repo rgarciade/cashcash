@@ -11,29 +11,29 @@ use Illuminate\Http\Request;
 
 class CompanysController extends ApiResponseController {
     private $paginate = 20;
-    public function allCompanys(){
+    public function allCompanys(): \Illuminate\Http\JsonResponse {
         $comps = CompanysBbdd::getAllPaginator($this->paginate);
-        return $this->successResponse($comps,200);
+        return $this->successResponse($comps);
     }
-    public function getCompanyById($id){
+    public function getCompanyById($id): \Illuminate\Http\JsonResponse {
         $company = CompanysBbdd::getFromId($id);
         if(count($company) == 0){
             return $this->errorResponse('',500,"Company don't exist");
         }
         $company[0]->contacts;
-        return $this->successResponse($company[0],200);
+        return $this->successResponse($company[0]);
     }
-    public function getCompanyByData($someField){
+    public function getCompanyByData($someField): \Illuminate\Http\JsonResponse {
         $company = CompanysBbdd::getFromMultiField($someField,$this->paginate);
-        return $this->successResponse($company,200);
+        return $this->successResponse($company);
     }
-    public function newCompany(Request $req){
+    public function newCompany(Request $req): \Illuminate\Http\JsonResponse {
 
         $validator = CompanysValidators::verifyCreateCompany($req);
         if ($validator->fails()) return $this->errorResponse($validator->errors()->messages(),500,'error when create company');
 
         try {
-            $companys = CompanysBbdd::insert([
+            CompanysBbdd::insert([
                 'cif' => $req->cif,
                 'name' => $req->name,
                 'contact' => $req->contact,
@@ -53,10 +53,9 @@ class CompanysController extends ApiResponseController {
         } catch (\Throwable $th) {
             return $this->errorResponse(null,500,'sql insert Error, chech values');
         }
-        if(!$companys) $this->errorResponse(null,500,'sql insert Error, chech values');
         return $this->successResponse(null,200,'Company insertada correctamente');
     }
-    public function updateCompany(Request $request, $articleID){
+    public function updateCompany(Request $request, $articleID): \Illuminate\Http\JsonResponse {
         try {
             $validator = CompanysValidators::verifyUpdateACompany($request);
             if ($validator->fails()) return $this->errorResponse($validator->errors()->messages(),500,'error when update Company');
@@ -70,7 +69,7 @@ class CompanysController extends ApiResponseController {
 
         return $this->successResponse(null,200,'update article');
     }
-    public function deleteCompanyFromId($id){
+    public function deleteCompanyFromId($id): \Illuminate\Http\JsonResponse {
         try {
             CompanysBbdd::deleteFromId($id);
         } catch (\Throwable $th) {

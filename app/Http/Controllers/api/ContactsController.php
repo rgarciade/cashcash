@@ -10,17 +10,17 @@ use Illuminate\Http\Request;
 
 class ContactsController extends ApiResponseController {
 
-    public function allContactsFromCompany($companyId){
-        return $this->successResponse(ContactsBbdd::getFromCompanyId($companyId),200);
+    public function allContactsFromCompany($companyId): \Illuminate\Http\JsonResponse {
+        return $this->successResponse(ContactsBbdd::getFromCompanyId($companyId));
     }
-    public function getContact($Id){
-        return $this->successResponse(ContactsBbdd::getFromId($Id),200);
+    public function getContact($Id): \Illuminate\Http\JsonResponse {
+        return $this->successResponse(ContactsBbdd::getFromId($Id));
     }
-    public function insertContac(Request $req){
+    public function insertContact(Request $req): \Illuminate\Http\JsonResponse {
         $validator = ContactsValidators::verifyCreateContact($req);
         if ($validator->fails()) return $this->errorResponse($validator->errors()->messages(),500,'error when create contac');
         try {
-            $contact = ContactsBbdd::insert([
+            ContactsBbdd::insert([
                 "companys_id" => $req->companys_id,
                 "email" => $req->email,
                 "name" => $req->name,
@@ -31,10 +31,9 @@ class ContactsController extends ApiResponseController {
         } catch (\Throwable $th) {
             return $this->errorResponse(null,500,'sql insert Error, chech values');
         }
-        if(!$contact) $this->errorResponse(null,500,'sql insert Error, chech values');
         return $this->successResponse(null,200,'Contac insertado correctamente');
     }
-    public function deletetContac($contactId){
+    public function deleteContact($contactId): \Illuminate\Http\JsonResponse {
         try {
             ContactsBbdd::deleteFromId($contactId);
         } catch (\Throwable $th) {

@@ -9,27 +9,26 @@ use Illuminate\Http\Request;
 
 
 class ArticlesController extends ApiResponseController {
-    public function allArticles($paginate = null){
-        
+    public function allArticles($paginate = null): \Illuminate\Http\JsonResponse {
+
         return $this->successResponse(
-            ($paginate)? ArticlesBbdd::getAllPaginator($paginate) : ArticlesBbdd::getAll()
-            ,200);
+            ($paginate)? ArticlesBbdd::getAllPaginator($paginate) : ArticlesBbdd::getAll());
     }
-    public function getArticle($id){
+    public function getArticle($id): \Illuminate\Http\JsonResponse {
 
         $article = ArticlesBbdd::getFromId($id);
         if(count($article) == 0){
             return $this->errorResponse('',500,"article don't exist");
         }
-        return $this->successResponse($article[0],200);
+        return $this->successResponse($article[0]);
     }
-    public function newArticle(Request $req){
+    public function newArticle(Request $req): \Illuminate\Http\JsonResponse {
 
         $validator = Articlesvalidators::verifyCreateArticles($req);
         if ($validator->fails()) return $this->errorResponse($validator->errors()->messages(),500,'error when create article');
 
         try {
-            $article = ArticlesBbdd::insert([
+           ArticlesBbdd::insert([
                 'productid' => $req->productid,
                 'description' => $req->description,
                 'units' => $req->units,
@@ -39,10 +38,9 @@ class ArticlesController extends ApiResponseController {
         } catch (\Throwable $th) {
             return $this->errorResponse(null,500,'sql insert Error, chech values');
         }
-        if(!$article) $this->errorResponse(null,500,'sql insert Error, chech values');
         return $this->successResponse(null,200,'articulo insertado correctamente');
     }
-    public function updateArticle(Request $request, $articleID){
+    public function updateArticle(Request $request, $articleID): \Illuminate\Http\JsonResponse {
         try {
             $validator = Articlesvalidators::verifyUpdateArticles($request);
             if ($validator->fails()) return $this->errorResponse($validator->errors()->messages(),500,'error when update article');
@@ -56,7 +54,7 @@ class ArticlesController extends ApiResponseController {
 
         return $this->successResponse(null,200,'update article');
     }
-    public function deleteArticleFromProductId($pId){
+    public function deleteArticleFromProductId($pId): \Illuminate\Http\JsonResponse {
         try {
             ArticlesBbdd::deleteFromColumAndValue('productid',$pId);
         } catch (\Throwable $th) {
@@ -64,7 +62,7 @@ class ArticlesController extends ApiResponseController {
         }
         return $this->successResponse(null,200,'articulo borrado correctamente');
     }
-    public function deleteArticleFromId($id){
+    public function deleteArticleFromId($id): \Illuminate\Http\JsonResponse {
         try {
             ArticlesBbdd::deleteFromId($id);
         } catch (\Throwable $th) {
@@ -72,11 +70,11 @@ class ArticlesController extends ApiResponseController {
         }
         return $this->successResponse(null,200,'articulo borrado correctamente');
     }
-    public function findArticles($string){
-        $articles = ArticlesBbdd::findArticlesByAllFields($string,20);
+    public function findArticles($string): \Illuminate\Http\JsonResponse {
+        $articles = ArticlesBbdd::findArticlesByAllFields($string);
         if(count($articles) == 0){
             return $this->errorResponse('',500,"articles don't found");
         }
-        return $this->successResponse($articles,200);
+        return $this->successResponse($articles);
     }
 }

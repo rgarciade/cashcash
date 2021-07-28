@@ -4,7 +4,7 @@ namespace App\Http\Controllers\database;
 use App\Models\Companys;
 
 class CompanysBbdd extends commonBbdd {
-    protected static $model = Companys::class;
+    protected static string $model = Companys::class;
 
     public static function getAll() : \Illuminate\Database\Eloquent\Collection{
         $comps = static::$model::all();
@@ -21,8 +21,8 @@ class CompanysBbdd extends commonBbdd {
         return $comps;
     }
     public static function getFromMultiField($someField, $paginate){
-        $companys = new Companys();
-        $fillables = $companys->getFillable();
+        $companies = new Companys();
+        $fillables = $companies->getFillable();
         $query = static::$model::where($fillables[0], 'like', '%'.$someField.'%');
         for ($i=1; $i < count($fillables); $i++) { 
             $query->orWhere($fillables[$i], 'like', '%'.$someField.'%');

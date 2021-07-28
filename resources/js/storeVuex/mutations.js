@@ -31,6 +31,9 @@ const mutations = {
     },
     articles(state, articlesResponse) {       
         state.articles = articlesResponse
+    },
+    companys(state, companysResponse) {       
+        state.companys = companysResponse
     }
 }
 

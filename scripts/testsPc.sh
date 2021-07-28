@@ -1,4 +1,5 @@
 #!/bin/bash
+./vendor/bin/sail artisan cache:clear
 echo "ejecutando migraciones......"
 ./vendor/bin/sail artisan migrate:fresh >> logs/migrate.txt
 echo "-migraciones listas"
