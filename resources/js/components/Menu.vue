@@ -5,26 +5,17 @@
       :mini-variant.sync="mini"
       permanent
       floating
-       hide-overlay
+      hide-overlay
       stateless
       absolute
       dark
+      expand-on-hover
       class='background_img fixedmenu position_menu'
     >
-      <v-list-item class="px-2 ">
-
-        <v-btn
-          icon
-          v-if="mini" @click.stop="mini = !mini"
-        >
-          <v-icon class='menu_arrow_right'>mdi-chevron-right</v-icon>
-        </v-btn>
-        <v-btn
-          icon
-          @click.stop="mini = !mini"
-        >
-          <v-icon>mdi-chevron-left</v-icon>
-        </v-btn>
+      <v-list-item class="px-2">
+        <v-list-item-avatar style="border-radius: 0%">
+          <v-img src="../../images/logo.png"></v-img>
+        </v-list-item-avatar>
       </v-list-item>
 
       <v-divider></v-divider>
