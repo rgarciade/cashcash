@@ -36,6 +36,10 @@ Route::get('/', function () {
         return view('welcome');
     });
 }*/
+
+Route::get('unauthorizedd', [App\Http\Controllers\web\indexController::class,'unauthorized']);
+Route::get('loginview',[App\Http\Controllers\web\indexController::class,'index']);
+
 $vueComonRoutes = [
     'aaa',
     '/',
@@ -43,5 +47,5 @@ $vueComonRoutes = [
     '/CompanyFinder'
 ];
 foreach ($vueComonRoutes as $route) {
-    Route::get($route,[App\Http\Controllers\web\indexController::class,'index']);
+    Route::middleware('auth:api')->get($route,[App\Http\Controllers\web\indexController::class,'index']);
 }
