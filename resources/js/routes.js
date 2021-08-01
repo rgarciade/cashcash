@@ -9,6 +9,7 @@ import companyfinder from './views/CompanyFinder';
 const routes = [
     { path: '/', component: Postlist },
     { path: '/aaa', name:'aaa', component: aaa },
+    { path: '/login', name:'login', component: aaa },
     { path: '/Articles', name:'Articles', component: Articles },
     { path: '/CompanyFinder', name:'CompanyFinder', component: companyfinder },
     { path: '/conpanyconfiguration', name:'conpanyconfiguration', component: companyfinder },

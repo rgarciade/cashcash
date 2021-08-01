@@ -6,6 +6,8 @@ const mutations = require('./mutations')
 Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
+        logued:TRUE,
+        token:'',
         count: 3,
         menuRoutes,
         companyData: {

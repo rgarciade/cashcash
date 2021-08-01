@@ -36,7 +36,7 @@ Route::get('/', function () {
         return view('welcome');
     });
 }*/
-
+echo "aaa";
 Route::get('unauthorizedd', [App\Http\Controllers\web\indexController::class,'unauthorized']);
 Route::get('loginview',[App\Http\Controllers\web\indexController::class,'index']);
 
