@@ -51,7 +51,7 @@
                     <v-btn  color="orange" :href="`mailto:${company.email}`" dark>
                       <v-icon>mdi-email</v-icon>
                     </v-btn>
-                    <v-btn  to="conpanyconfiguration" color="orange">ver</v-btn>
+                    <v-btn  to="companyConfiguration" color="orange">ver</v-btn>
                   </v-card-actions>
               </v-card>
             </v-hover>

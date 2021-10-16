@@ -4,6 +4,7 @@ import Postlist from './components/PostListComponent';
 import aaa from './components/aaa';
 import Articles from './views/Articles';
 import companyfinder from './views/CompanyFinder';
+import companyConfiguration from './views/CompanyConfiguration';
 
 
 const routes = [
@@ -11,7 +12,7 @@ const routes = [
     { path: '/aaa', name:'aaa', component: aaa },
     { path: '/Articles', name:'Articles', component: Articles },
     { path: '/CompanyFinder', name:'CompanyFinder', component: companyfinder },
-    { path: '/conpanyconfiguration', name:'conpanyconfiguration', component: companyfinder },
+    { path: '/companyConfiguration', name:'companyConfiguration', component: companyConfiguration },
     { path: '*', component: Postlist }
 ];
 const menuRoutes = [

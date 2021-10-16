@@ -66,6 +66,7 @@ class ArticlesController extends ApiResponseController {
         try {
             ArticlesBbdd::deleteFromId($id);
         } catch (\Throwable $th) {
+
             return $this->errorResponse(null,500,'sql delete Error, chech id');
         }
         return $this->successResponse(null,200,'articulo borrado correctamente');
