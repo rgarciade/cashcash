@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\api\ArticlesController;
+use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\CompanysController;
 use App\Http\Controllers\api\ContactsController;
 use Illuminate\Http\Request;
@@ -21,12 +22,28 @@ Route::middleware('auth:api')->get('/facturation/{id}', function (Request $reque
     return $request->user();
 });
 */
+Route::group([
+    'prefix' => 'auth'
+], function () {
+    Route::post('login', [AuthController::class,'login']);
+    Route::post('signup', [AuthController::class,'signUp']);
+    Route::group([
+      'middleware' => 'auth:api'
+    ], function() {
+        Route::get('logout', [AuthController::class,'logout']);
+        Route::get('user', function (Request $request) {
+            return $request->user();
+        });
+    });
+});
+
 
 //articles
 Route::get('articles', [ArticlesController::class, 'allArticles']);
+Route::get('articles', [ArticlesController::class, 'allArticles']);
 Route::get('articles/paginate={paginate}', [ArticlesController::class, 'allArticles']);
 Route::get('articles/find={string}', [ArticlesController::class, 'findArticles']);
-Route::get('articles/{id}', [ArticlesController::class, 'getArticle']);
+Route::middleware('auth:api')->get('articles/{id}', [ArticlesController::class, 'getArticle']);
 Route::post('articles', [ArticlesController::class, 'newArticle']);
 Route::match(array('PUT', 'PATCH'), "articles/{id}", function(Request $request, $id){
     $articlesController = new ArticlesController();

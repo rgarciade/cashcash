@@ -36,6 +36,10 @@ Route::get('/', function () {
         return view('welcome');
     });
 }*/
+
+Route::get('unauthorizedd', [App\Http\Controllers\web\indexController::class,'unauthorized']);
+Route::get('loginview',[App\Http\Controllers\web\indexController::class,'index']);
+
 $vueComonRoutes = [
     'aaa',
     '/',

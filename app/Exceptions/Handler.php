@@ -38,4 +38,27 @@ class Handler extends ExceptionHandler
             //
         });
     }
+        /**
+     * Render an exception into an HTTP response.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Exception  $exception
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+         */
+    public function render($request, Throwable $exception)
+    {
+        ;
+        if (!$request->expectsJson() && in_array('web',$request->route()->gatherMiddleware())) {
+            return view('index');
+        }
+        return response()->json(
+            [
+                'errors' => [
+                    'status' => 401,
+                    'message' => 'Unauthenticated',
+                ]
+            ], 401
+        );
+    }
+
 }

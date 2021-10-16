@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" href="{{ asset('../../images/logo.png') }}">
 
-        <title>Laravel Vuetify</title>
+        <title>Cash Cash</title>
     </head>
     <body>
         <div id="app">
