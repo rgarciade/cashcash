@@ -37,15 +37,14 @@ Route::get('/', function () {
     });
 }*/
 
-Route::get('unauthorizedd', [App\Http\Controllers\web\indexController::class,'unauthorized']);
-Route::get('loginview',[App\Http\Controllers\web\indexController::class,'index']);
-
-$vueComonRoutes = [
+$vueCommonRoutes = [
     'aaa',
     '/',
     '/Articles',
-    '/CompanyFinder'
+    '/CompanyFinder',
+    '/login',
+    'unauthorized'
 ];
-foreach ($vueComonRoutes as $route) {
+foreach ($vueCommonRoutes as $route) {
     Route::get($route,[App\Http\Controllers\web\indexController::class,'index']);
 }

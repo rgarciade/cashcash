@@ -11,13 +11,13 @@ const mutations = {
     alert(state, msg) {
         state.alert = ''
         setTimeout(function(){  state.alert = msg }, 100);
-       
+
     },
-    /* 
+    /*
         msg : {message,type}
      */
     alerts(state, msg) {
-        if(!msg.type) msg.type = "success" 
+        if(!msg.type) msg.type = "success"
         state.alerts.push({
             id: (Math.random().toString(36) + Date.now().toString(36)).substr(2),
             type: msg.type,
@@ -29,12 +29,17 @@ const mutations = {
             return alet.id != id
         })
     },
-    articles(state, articlesResponse) {       
+    articles(state, articlesResponse) {
         state.articles = articlesResponse
     },
-    companys(state, companysResponse) {       
+    companys(state, companysResponse) {
         state.companys = companysResponse
+    },
+    addAccessToken(state, accessToken) {
+        state.accessToken = accessToken
+        sessionStorage.setItem("accessTokenCashCash",accessToken);
     }
+
 }
 
 module.exports = mutations

@@ -4,7 +4,7 @@ const { menuRoutes } = require('../routes')
 const actions = require('./actions/actions.js')
 const mutations = require('./mutations')
 Vue.use(Vuex)
-export default new Vuex.Store({
+const vuexStore = new Vuex.Store({
     state: {
         count: 3,
         menuRoutes,
@@ -68,10 +68,13 @@ export default new Vuex.Store({
 			mailhost:'',
 			mailport:'',
 			secure: ''
-		}
+		},
+        accessToken:''
     },
     actions,
     mutations,
     //strict: process.env.NODE_ENV !== "production"
     strict: 1
 })
+vuexStore.commit('addAccessToken', sessionStorage.getItem("accessTokenCashCash"))
+export default vuexStore

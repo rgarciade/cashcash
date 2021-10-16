@@ -43,11 +43,10 @@ class Handler extends ExceptionHandler
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Exception  $exception
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return \Illuminate\Http\JsonResponse
          */
     public function render($request, Throwable $exception)
     {
-        ;
         if (!$request->expectsJson() && in_array('web',$request->route()->gatherMiddleware())) {
             return view('index');
         }
