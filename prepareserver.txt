@@ -5,11 +5,15 @@ lanzar tests     php artisan test tests
 
 sail lanzar js watch
     sail npm run watch
-montar vue 
+montar vue
     sail composer update
     sail composer require laravel/ui
     sail artisan ui vue
     sail npm install && npm run dev
+
+auth token
+sail artisan passport:install   "crea el token"
+
 
 docker
 - cd docker-compose
