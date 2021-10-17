@@ -10,6 +10,10 @@ const actions = {
     removeAlert(store, id){
         this.commit('removeAlert', id)
     },
+    logoutToApi(){
+        this.commit('addAccessToken', '')
+        router.push("/login");
+    },
     loginToApi(store,data){
         httpRequest.post(`auth/login`,
         {
@@ -17,7 +21,7 @@ const actions = {
             "password": data.password
         }).then(resp =>{
             this.commit('addAccessToken', resp.data.access_token)
-            router.push("/");
+            router.go(-1);
             this.commit('alerts', {
                 message:'logueado',
                 type:'success'

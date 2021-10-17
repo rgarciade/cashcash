@@ -36,13 +36,21 @@
             <v-list-item-title class="indigo--text font-weight-black" >{{ item.title }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-      </v-list>
+          <v-list-item link>
+              <v-list-item-icon>
+                  <v-icon color="primary">mdi-logout</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content >
+                  <v-list-item-title class="indigo--text font-weight-black"  @click="logout" @click.stop="mini = true" >logout</v-list-item-title>
+              </v-list-item-content>
+          </v-list-item>
+        </v-list>
     </v-navigation-drawer>
   </v-card>
 </template>
 
 <script>
-  import { mapState } from "vuex"
+  import { mapState,mapActions } from "vuex"
   export default {
       name: 'Menu',
       computed: mapState(["menuRoutes"]),
@@ -52,6 +60,16 @@
               mini: true,
               right: null
           }
-      }
+      },
+      methods: Object.assign(
+          {},
+          mapActions([
+              "logoutToApi"
+          ]),{
+              logout() {
+                  this.logoutToApi();
+              }
+          }
+      ),
   }
 </script>
