@@ -6,4 +6,5 @@ echo "-migraciones listas"
 echo "ejecutando seed......"
 ./vendor/bin/sail artisan db:seed >> logs/seed.txt
 echo "-seed creados"
+./vendor/bin/sail artisan passport:instal
 ./vendor/bin/sail artisan test

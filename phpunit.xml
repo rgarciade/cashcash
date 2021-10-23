@@ -6,7 +6,7 @@
 >
     <testsuites>
         <testsuite name="api">
-            <directory>tests/Feature/api</directory>
+            <directory>tests/Feature/apitest</directory>
         </testsuite>
     </testsuites>
     <coverage processUncoveredFiles="true">

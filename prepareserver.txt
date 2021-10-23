@@ -14,6 +14,11 @@ montar vue
 auth token
 sail artisan passport:install   "crea el token"
 
+debugger
+poner APP_DEBUG en true y lanzat 
+    sail down
+    sail build --no-cache   "el no cache no deberia ser necesario"
+    sail up -d
 
 docker
 - cd docker-compose
