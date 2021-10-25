@@ -4,6 +4,7 @@ namespace Tests\Feature\api;
 
 use App\Http\Controllers\api\ArticlesController;
 use App\Http\Controllers\api\CompanysController;
+use App\Http\Controllers\database\CompanysBbdd;
 use App\Models\Companys;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Testing\Fluent\AssertableJson;
@@ -14,7 +15,7 @@ class CompanysControllerTest extends TestCase {
      * @test
      */
     public function get_companys_status200(){
-        $response = $this->get('/api/companys');
+        $response = $this->getCallapi('/api/companys');
 
         $response->assertStatus(200);
     }
@@ -23,7 +24,7 @@ class CompanysControllerTest extends TestCase {
      */
     public function get_companys_json(){
 
-        $response = $this->get('/api/companys');
+        $response = $this->getCallapi('/api/companys');
         $jsonArticles = file_get_contents(__DIR__."/testJsons/getAllCompanys.json");
         $expectedResponse = json_decode($jsonArticles,true);
 
@@ -34,7 +35,7 @@ class CompanysControllerTest extends TestCase {
      * @test
     */
     public function get_company_json(){
-        $response = $this->get('/api/companys/3');
+        $response = $this->getCallapi('/api/companys/3');
         $response->assertJson(function (AssertableJson $json) {
             $json->has('msg')
             ->where('msg',"")
@@ -72,7 +73,7 @@ class CompanysControllerTest extends TestCase {
      * @test
     */
     public function get_company_fom_name_json(){
-        $response = $this->get('/api/companys/someField/Empresa');
+        $response = $this->getCallapi('/api/companys/someField/Empresa');
         $jsonArticles = file_get_contents(__DIR__."/testJsons/getCompanyPaginated.json");
         $expectedResponse = json_decode($jsonArticles,true);
         $response->assertExactJson($expectedResponse);
@@ -83,7 +84,7 @@ class CompanysControllerTest extends TestCase {
     public function get_company_json_error(){
         DB::beginTransaction();
         $companyId = 12;
-        $response = $this->get("/api/companys/{$companyId}");
+        $response = $this->getCallapi("/api/companys/{$companyId}");
         $response->assertJson(function (AssertableJson $json) {
             $json->has('msg')
             ->has('data')
@@ -99,7 +100,7 @@ class CompanysControllerTest extends TestCase {
     */
     public function post_insert_company_json(){
         DB::beginTransaction();
-        $response = $this->post('/api/companys',[
+        $response = $this->postCall('/api/companys',[
             'cif' => 'cifTest',
             'name' => 'nameTest',
             'contact' => 'contactTest',
@@ -123,7 +124,7 @@ class CompanysControllerTest extends TestCase {
             ->where('msg',"Company insertada correctamente")
             ->where('code',200);
         });
-        $responseNewData = $this->get('/api/companys/4');
+        $responseNewData = $this->getCallapi('/api/companys/4');
 
         $responseNewData->assertJson(function (AssertableJson $json) {
             $json->has('msg')
@@ -158,7 +159,7 @@ class CompanysControllerTest extends TestCase {
     */
     public function post_insert_company_json_error(){
         DB::beginTransaction();
-        $response = $this->post('/api/companys',[]);
+        $response = $this->postCall('/api/companys',[]);
         $response->assertStatus(200);
         $response->assertJson(function (AssertableJson $json) {
             $json->has('msg')
@@ -179,7 +180,7 @@ class CompanysControllerTest extends TestCase {
     */
     public function path_update_company_json(){
         DB::beginTransaction();
-        $response = $this->patch('/api/companys/1',[
+        $response = $this->patchCall('/api/companys/1',[
             "name"=>"empresaUpdated",
             "notas"=>'ssssss'
         ]);
@@ -198,8 +199,8 @@ class CompanysControllerTest extends TestCase {
     public function path_update_article_json_error(){
         DB::beginTransaction();
         $articleId = 1;
-        $responseUpdateFirst = $this->patch("/api/companys/{$articleId}",[]);
-        $responseUpdateSecond = $this->patch("/api/companys/{$articleId}",[
+        $responseUpdateFirst = $this->patchCall("/api/companys/{$articleId}",[]);
+        $responseUpdateSecond = $this->patchCall("/api/companys/{$articleId}",[
             "name"=>""
         ]);
 
@@ -226,15 +227,15 @@ class CompanysControllerTest extends TestCase {
     public function delete_company_from_id_json(){
         DB::beginTransaction();
         $id = 3;
-        $this->assertEquals(1,count(Companys::where('id',$id)->get()));
-        $responseDelete = $this->delete("/api/companys/${id}");
+        $this->assertEquals(1,count(CompanysBbdd::selectFromColumAndValue('id',$id)));
+        $responseDelete = $this->deleteCall("/api/companys/${id}");
         $responseDelete->assertJson(function (AssertableJson $json) {
             $json->has('msg')
             ->has('code')
             ->where('msg',"Compañia borrada correctamente")
             ->where('code',200);
         });
-        $this->assertEquals(0,count(Companys::where('id',$id)->get()));
+        $this->assertEquals(0,count(CompanysBbdd::selectFromColumAndValue('id',$id)));
 
         DB::rollBack();
     }
@@ -244,8 +245,8 @@ class CompanysControllerTest extends TestCase {
     public function delete_company_from_id_json_error(){
         DB::beginTransaction();
         $id = 33;
-        $this->assertEquals(0,count(Companys::where('id',$id)->get()));
-        $responseDeleteFirst = $this->delete("/api/companys/{$id}");
+        $this->assertEquals(0,count(CompanysBbdd::selectFromColumAndValue('id',$id)));
+        $responseDeleteFirst = $this->deleteCall("/api/companys/{$id}");
         $responseDeleteFirst->assertJson(function (AssertableJson $json) {
             $json->has('msg')
             ->has('code')

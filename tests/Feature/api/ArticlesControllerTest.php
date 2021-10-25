@@ -16,7 +16,7 @@ class ArticlesControllerTest extends TestCase {
      * @test
      */
     public function get_articles_status200(){
-        $response = $this->get('/api/articles');
+        $response = $this->getCallapi('/api/articles');
         $response->assertStatus(200);
     }
 
@@ -25,7 +25,7 @@ class ArticlesControllerTest extends TestCase {
      */
     public function get_articles_paginate_json(){
 
-        $response = $this->get('/api/articles/paginate=20');
+        $response = $this->getCallapi('/api/articles/paginate=20');
         $jsonArticles = file_get_contents(__DIR__."/testJsons/getAllArticlesPaginate.json");
         $expectedResponse = json_decode($jsonArticles,true);
 
@@ -36,7 +36,7 @@ class ArticlesControllerTest extends TestCase {
      */
     public function get_articles_json(){
 
-        $response = $this->get('/api/articles');
+        $response = $this->getCallapi('/api/articles');
         $jsonArticles = file_get_contents(__DIR__."/testJsons/getAllArticles.json");
         $expectedResponse = json_decode($jsonArticles,true);
 
@@ -47,7 +47,7 @@ class ArticlesControllerTest extends TestCase {
      * @test
     */
     public function get_article_json(){
-        $response = $this->get('/api/articles/1');
+        $response = $this->getCallapi('/api/articles/1');
         $response->assertJson(function (AssertableJson $json) {
             $json->has('msg')
             ->where('msg',"")
@@ -68,7 +68,7 @@ class ArticlesControllerTest extends TestCase {
     */
     public function get_article_json_error(){
         $articleId = 12;
-        $response = $this->get("/api/articles/{$articleId}");
+        $response = $this->getCallapi("/api/articles/{$articleId}");
         $response->assertJson(function (AssertableJson $json) {
             $json->has('msg')
             ->has('data')
@@ -83,7 +83,7 @@ class ArticlesControllerTest extends TestCase {
     */
     public function post_insert_article_json(){
         DB::beginTransaction();
-        $response = $this->post('/api/articles',[
+        $response = $this->postCall('/api/articles',[
             "productid" => 1231412,
             "description" => 'artículo nuevo',
             "units" => 12,
@@ -96,7 +96,7 @@ class ArticlesControllerTest extends TestCase {
             ->where('msg',"articulo insertado correctamente")
             ->where('code',200);
         });
-        $responseNewData = $this->get('/api/articles/8');
+        $responseNewData = $this->getCallapi('/api/articles/8');
 
         $responseNewData->assertJson(function (AssertableJson $json) {
             $json->has('msg')
@@ -119,7 +119,7 @@ class ArticlesControllerTest extends TestCase {
     */
     public function post_insert_article_json_error(){
         DB::beginTransaction();
-        $response = $this->post('/api/articles',[]);
+        $response = $this->postCall('/api/articles',[]);
         $response->assertStatus(200);
         $response->assertJson(function (AssertableJson $json) {
             $json->has('msg')
@@ -143,7 +143,7 @@ class ArticlesControllerTest extends TestCase {
     */
     public function path_update_article_json(){
         DB::beginTransaction();
-        $response = $this->patch('/api/articles/1',[
+        $response = $this->patchCall('/api/articles/1',[
             "description"=>"pantalla",
             "units"=>12
         ]);
@@ -161,8 +161,8 @@ class ArticlesControllerTest extends TestCase {
     public function path_update_article_json_error(){
         DB::beginTransaction();
         $articleId = 1;
-        $responseUpdateFirst = $this->patch("/api/articles/{$articleId}",[]);
-        $responseUpdateSecond = $this->patch("/api/articles/{$articleId}",[
+        $responseUpdateFirst = $this->patchCall("/api/articles/{$articleId}",[]);
+        $responseUpdateSecond = $this->patchCall("/api/articles/{$articleId}",[
             "description"=>"pantalla",
             "units"=>"eee"
         ]);
@@ -191,15 +191,15 @@ class ArticlesControllerTest extends TestCase {
     public function delete_article_from_producid_json(){
         DB::beginTransaction();
         $productid = 12633;
-        $this->assertEquals(1,count(Articles::where('productid',$productid)->get()));
-        $responseDelete = $this->delete("/api/articles/delete_from_productid/${productid}");
+        $this->assertEquals(1,count(ArticlesBbdd::selectFromColumAndValue('productid',$productid)));
+        $responseDelete = $this->deleteCall("/api/articles/delete_from_productid/${productid}");
         $responseDelete->assertJson(function (AssertableJson $json) {
             $json->has('msg')
             ->has('code')
             ->where('msg',"articulo borrado correctamente")
             ->where('code',200);
         });
-        $this->assertEquals(0,count(Articles::where('productid',$productid)->get()));
+        $this->assertEquals(0,count(ArticlesBbdd::selectFromColumAndValue('productid',$productid)));
 
         DB::rollBack();
     }
@@ -209,15 +209,15 @@ class ArticlesControllerTest extends TestCase {
     public function delete_article_from_id_json(){
         DB::beginTransaction();
         $id = 1;
-        $this->assertEquals(1,count(Articles::where('id',$id)->get()));
-        $responseDelete = $this->delete("/api/articles/{$id}");
+        $this->assertEquals(1,count(ArticlesBbdd::selectFromColumAndValue('id',$id)));
+        $responseDelete = $this->deleteCall("/api/articles/{$id}");
         $responseDelete->assertJson(function (AssertableJson $json) {
             $json->has('msg')
             ->has('code')
             ->where('msg',"articulo borrado correctamente")
             ->where('code',200);
         });
-        $this->assertEquals(0,count(Articles::where('id',$id)->get()));
+        $this->assertEquals(0,count(ArticlesBbdd::selectFromColumAndValue('id',$id)));
 
         DB::rollBack();
     }
@@ -227,9 +227,9 @@ class ArticlesControllerTest extends TestCase {
     public function delete_article_from_id_json_error(){
         DB::beginTransaction();
         $id = 123141235;
-        $this->assertEquals(0,count(Articles::where('id',$id)->get()));
-        $responseDeleteFirst = $this->delete("/api/articles/{$id}");
-        $responseDeleteSecond = $this->delete("/api/articles/delete_from_productid/${id}");
+        $this->assertEquals(0,count(ArticlesBbdd::selectFromColumAndValue('id',$id)));
+        $responseDeleteFirst = $this->deleteCall("/api/articles/{$id}");
+        $responseDeleteSecond = $this->deleteCall("/api/articles/delete_from_productid/${id}");
         $responseDeleteFirst->assertJson(function (AssertableJson $json) {
             $json->has('msg')
             ->has('code')

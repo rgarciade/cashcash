@@ -40,6 +40,14 @@ class commonBbdd implements InterfaceBbdd{
     public static function getFromId($id): Collection {
         return static::$model::where('id',$id)->get();
     }
+    /**
+     * @param string table colum
+     * @param int value
+     * @return Collection paginated
+     */
+    public static function selectFromColumAndValue($colum, $value): Collection {
+        return static::$model::where($colum,$value)->get();
+    }
 
     /**
      * @param string table column

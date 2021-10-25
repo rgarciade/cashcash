@@ -16,7 +16,7 @@ class ContactsControllerTest extends TestCase {
     public function get_contacts_from_company_id(){
         DB::beginTransaction();
         $companyId = 3;
-        $response = $this->get("/api/contacs/{$companyId}");
+        $response = $this->getCallapi("/api/contacs/{$companyId}");
         $response->assertJson(function (AssertableJson $json) {
             $json->has('msg')
             ->has('data')
@@ -41,7 +41,7 @@ class ContactsControllerTest extends TestCase {
     public function get_contacts_from__id(){
         DB::beginTransaction();
         $id = 2;
-        $response = $this->get("/api/contac/{$id}");
+        $response = $this->getCallapi("/api/contac/{$id}");
         $response->assertJson(function (AssertableJson $json) {
             $json->has('msg')
             ->has('data')
@@ -65,7 +65,7 @@ class ContactsControllerTest extends TestCase {
     */
     public function post_insert_contact_json(){
         DB::beginTransaction();
-        $response = $this->post('/api/contacs',[
+        $response = $this->postCall('/api/contacs',[
             "companys_id" => 1,
             "email" => "asaas@wwg.com",
             "name" => "peponoo",
@@ -85,7 +85,7 @@ class ContactsControllerTest extends TestCase {
     */
     public function post_insert_contact_json_error(){
         DB::beginTransaction();
-        $response = $this->post('/api/contacs',[
+        $response = $this->postCall('/api/contacs',[
             "companys_id" => 'faafsa'
         ]);
         $response->assertStatus(200);
@@ -94,7 +94,7 @@ class ContactsControllerTest extends TestCase {
             ->where('code',500)
             ->has('data');
         });
-        $response = $this->post('/api/contacs',[
+        $response = $this->postCall('/api/contacs',[
             "companys_id" => 'faafsa',
             "email" => 'asfafsa',
             "name" => 'asfafa'
@@ -115,13 +115,13 @@ class ContactsControllerTest extends TestCase {
         DB::beginTransaction();
         $id = 2;
         $this->assertEquals(1,count(ContactsBbdd::getFromId($id)));
-        $responseDelete = $this->delete("/api/contacs/${id}");
+        $responseDelete = $this->deleteCall("/api/contacs/${id}");
         $responseDelete->assertJson(function (AssertableJson $json) {
             $json->has('msg')
             ->where('msg',"Contact borrado correctamente")
             ->where('code',200);
         });
-        $this->assertEquals(0,count(Contacts::where('id',$id)->get()));
+        $this->assertEquals(0,count(ContactsBbdd::getFromId('id',$id)));
 
         DB::rollBack();
     }
@@ -132,7 +132,7 @@ class ContactsControllerTest extends TestCase {
         DB::beginTransaction();
         $id = 200;
         $this->assertEquals(0,count(ContactsBbdd::getFromId($id)));
-        $responseDelete = $this->delete("/api/contacs/${id}");
+        $responseDelete = $this->deleteCall("/api/contacs/${id}");
         $responseDelete->assertJson(function (AssertableJson $json) {
             $json->where('msg','sql delete Error, chech id')
             ->where('code',500)
