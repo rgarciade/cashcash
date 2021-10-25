@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +21,7 @@ Route::get('/', function () {
         $contact->facturations->company;
         dd($contact);
         */
-        /*
+/*
         $facturation = Facturations::where('id',1)->firstOrFail();
         $facturation->company;
         $facturation->articles;
@@ -46,5 +47,5 @@ $vueCommonRoutes = [
     'unauthorized'
 ];
 foreach ($vueCommonRoutes as $route) {
-    Route::get($route,[App\Http\Controllers\web\indexController::class,'index']);
+    Route::get($route, [App\Http\Controllers\web\indexController::class, 'index']);
 }

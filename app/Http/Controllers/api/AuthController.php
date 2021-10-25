@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
@@ -7,11 +8,13 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AuthController extends Controller{
+class AuthController extends Controller
+{
     /**
      * Registro de usuario
      */
-    public function signUp(Request $request){
+    public function signUp(Request $request)
+    {
         $request->validate([
             'name' => 'required|string',
             'email' => 'required|string|email|unique:users',
@@ -28,7 +31,8 @@ class AuthController extends Controller{
             'message' => 'Successfully created user!'
         ], 201);
     }
-    public function login(Request $request){
+    public function login(Request $request)
+    {
         $request->validate([
             'email' => 'required|string|email',
             'password' => 'required|string'
@@ -47,7 +51,7 @@ class AuthController extends Controller{
         $token = $tokenResult->token;
 
         $token->expires_at = Carbon::now()->addWeeks(4);
-        
+
         $token->save();
         return response()->json([
             'access_token' => $tokenResult->accessToken,
@@ -58,7 +62,8 @@ class AuthController extends Controller{
     /**
      * Cierre de sesión (anular el token)
      */
-    public function logout(){
+    public function logout()
+    {
         auth()->user()->tokens->each(function ($token, $key) {
             $token->delete();
         });
@@ -71,7 +76,8 @@ class AuthController extends Controller{
     /**
      * Obtener el objeto User como json
      */
-    public function user(Request $request){
+    public function user(Request $request)
+    {
         return response()->json($request->user());
     }
 }

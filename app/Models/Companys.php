@@ -26,7 +26,8 @@ class Companys extends Model
         'mobile',
         'notas'
     ];
-    public function contacts(){
+    public function contacts()
+    {
         return $this->hasMany(Contacts::class);
     }
 }

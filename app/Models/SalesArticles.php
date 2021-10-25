@@ -17,7 +17,8 @@ class SalesArticles extends Model
         'article_price',
         'units'
     ];
-    public function sales(){
+    public function sales()
+    {
         return $this->belongsTo(Sales::class);
     }
 }

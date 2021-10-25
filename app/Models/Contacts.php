@@ -17,7 +17,8 @@ class Contacts extends Model
         'telephone',
         'facturacion'
     ];
-    public function company(){
+    public function company()
+    {
         return $this->belongsTo(Companys::class);
     }
 }

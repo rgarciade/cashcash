@@ -22,21 +22,22 @@ Route::middleware('auth:api')->get('/facturation/{id}', function (Request $reque
     return $request->user();
 });
 */
+
 Route::group([
     'prefix' => 'auth'
 ], function () {
-    Route::post('login', [AuthController::class,'login']);
-    Route::post('signup', [AuthController::class,'signUp']);
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('signup', [AuthController::class, 'signUp']);
     Route::group([
-      'middleware' => 'auth:api'
-    ], function() {
-        Route::get('logout', [AuthController::class,'logout']);
+        'middleware' => 'auth:api'
+    ], function () {
+        Route::get('logout', [AuthController::class, 'logout']);
         Route::get('user', function (Request $request) {
             return $request->user();
         });
     });
 });
-Route::group(['middleware' => 'auth:api'],function(){
+Route::group(['middleware' => 'auth:api'], function () {
 
     //articles
     Route::get('articles', [ArticlesController::class, 'allArticles']);
@@ -45,9 +46,9 @@ Route::group(['middleware' => 'auth:api'],function(){
     Route::get('articles/find={string}', [ArticlesController::class, 'findArticles']);
     Route::middleware('auth:api')->get('articles/{id}', [ArticlesController::class, 'getArticle']);
     Route::post('articles', [ArticlesController::class, 'newArticle']);
-    Route::match(array('PUT', 'PATCH'), "articles/{id}", function(Request $request, $id){
+    Route::match(array('PUT', 'PATCH'), "articles/{id}", function (Request $request, $id) {
         $articlesController = new ArticlesController();
-        return $articlesController->updateArticle($request,$id);
+        return $articlesController->updateArticle($request, $id);
     });
 
     Route::delete('articles/{id}', [ArticlesController::class, 'deleteArticleFromId']);
@@ -59,9 +60,9 @@ Route::group(['middleware' => 'auth:api'],function(){
     Route::get('companys/{id}', [CompanysController::class, 'getCompanyById']);
     Route::get('companys/someField/{data}', [CompanysController::class, 'getCompanyByData']);
     Route::post('companys', [CompanysController::class, 'newCompany']);
-    Route::match(array('PUT', 'PATCH'), "companys/{id}", function(Request $request, $id){
+    Route::match(array('PUT', 'PATCH'), "companys/{id}", function (Request $request, $id) {
         $companysController = new CompanysController();
-        return $companysController->updateCompany($request,$id);
+        return $companysController->updateCompany($request, $id);
     });
     Route::delete('companys/{id}', [CompanysController::class, 'deleteCompanyFromId']);
 
@@ -71,5 +72,3 @@ Route::group(['middleware' => 'auth:api'],function(){
     Route::post('contacs', [ContactsController::class, 'insertContact']);
     Route::delete('contacs/{id}', [ContactsController::class, 'deleteContact']);
 });
-
-

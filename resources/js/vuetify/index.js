@@ -7,18 +7,18 @@ import '../../css/app.css'
 
 Vue.use(Vuetify)
 Vue.use(Vuetify, {
-    iconfont: 'md',
-    theme: {
-        dark: {
-            primary: "indigo",
-            secondary: "#424242",
-            accent: "#F57C00",
-            error: "#FF5252",
-            warning: "#FDD835",
-            info: "#82B1FF",
-            success: "#81C784"
-        }
-    }
+	iconfont: 'md',
+	theme: {
+		dark: {
+			primary: 'indigo',
+			secondary: '#424242',
+			accent: '#F57C00',
+			error: '#FF5252',
+			warning: '#FDD835',
+			info: '#82B1FF',
+			success: '#81C784'
+		}
+	}
 })
 const opts = {}
 
