@@ -6,7 +6,7 @@ class httpRequest {
     static post (url,data){
         return new Promise((resolver, reject) => {
             store.commit('charging')
-            axios.post(`${this.baseUrl}/${url}`, data, this.config)
+            axios.post(`${this.baseUrl}/${url}`, data, getHeaders())
                 .then(function (response) {
                    manageGoodResponse(resolver,reject,response)
                 })
@@ -20,7 +20,7 @@ class httpRequest {
     static path (url,data){
         return new Promise((resolver, reject) => {
             store.commit('charging')
-            axios.patch(`${this.baseUrl}/${url}`, data)
+            axios.patch(`${this.baseUrl}/${url}`, data, getHeaders())
                 .then(function (response) {
                     manageGoodResponse(resolver,reject,response)
                 })
@@ -48,7 +48,7 @@ class httpRequest {
     static delete(url){
         return new Promise((resolver, reject) => {
             store.commit('charging')
-            axios.delete(`${this.baseUrl}/${url}`)
+            axios.delete(`${this.baseUrl}/${url}`,getHeaders())
                 .then(function (response) {
                     manageGoodResponse(resolver,reject,response)
                 })

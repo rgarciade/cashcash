@@ -139,7 +139,7 @@
             </v-dialog>
             <v-dialog v-model="dialogDelete" max-width="510px">
               <v-card>
-                <v-card-title class="text-h5">Are you sure you want to delete this item?</v-card-title>
+                <v-card-title class="text-h5">¿Esta seguro de borrar el artículo?</v-card-title>
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn color="blue darken-1" text @click="closeDeleteModal">Cancel</v-btn>

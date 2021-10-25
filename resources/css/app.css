@@ -19,7 +19,7 @@ body {
   overflow: hidden;
 }
 textarea, input, body{
-text-transform: uppercase !important;
+  /* text-transform: uppercase !important; */
 }
 #c_email, #correo, .email{
   text-transform: lowercase !important;
