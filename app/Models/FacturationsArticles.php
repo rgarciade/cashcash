@@ -17,8 +17,8 @@ class FacturationsArticles extends Model
         'article_price',
         'units'
     ];
-    public function facturations(){
+    public function facturations()
+    {
         return $this->belongsTo(Facturations::class);
     }
-
 }

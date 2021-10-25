@@ -13,14 +13,16 @@ class Sales extends Model
         'id',
         'paymentType',
         'creation_date',
-		'price',
-		'vat',
-		'paid'
+        'price',
+        'vat',
+        'paid'
     ];
-    public function articles(){
+    public function articles()
+    {
         return $this->hasMany(SalesArticles::class);
     }
-    public function salesarticles(){
+    public function salesarticles()
+    {
         return $this->hasMany(SalesArticles::class);
     }
 }

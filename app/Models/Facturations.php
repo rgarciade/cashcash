@@ -14,14 +14,16 @@ class Facturations extends Model
         'company_id',
         'paymentType',
         'creation_date',
-		'price',
-		'vat',
-		'paid'
+        'price',
+        'vat',
+        'paid'
     ];
-    public function company(){
+    public function company()
+    {
         return $this->belongsTo(Companys::class);
     }
-    public function articles(){
+    public function articles()
+    {
         return $this->hasMany(FacturationsArticles::class);
     }
 }

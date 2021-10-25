@@ -1,11 +1,14 @@
 <?php
+
 namespace App\Http\validators\api;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
-class ContactsValidators extends Validator {
-    public static function verifyCreateContact(Request $request){
+class ContactsValidators extends Validator
+{
+    public static function verifyCreateContact(Request $request)
+    {
         return Validator::make($request->all(), [
             'companys_id' => 'required|min:1|max:45',
             'email' => 'min:1|max:45',

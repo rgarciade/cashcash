@@ -1,11 +1,14 @@
 <?php
+
 namespace App\Http\validators\api;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
-class CompanysValidators extends Validator {
-    public static function verifyCreateCompany(Request $request){
+class CompanysValidators extends Validator
+{
+    public static function verifyCreateCompany(Request $request)
+    {
         return Validator::make($request->all(), [
             'cif' => 'required|min:1|max:45',
             'name' => 'required|min:1|max:45',
@@ -24,7 +27,8 @@ class CompanysValidators extends Validator {
             'notas' => 'max:45',
         ]);
     }
-    public static function verifyUpdateACompany(Request $request){
+    public static function verifyUpdateACompany(Request $request)
+    {
         return Validator::make($request->all(), [
             'cif' => 'min:1|max:45',
             'name' => 'min:1|max:45',
@@ -42,7 +46,5 @@ class CompanysValidators extends Validator {
             'mobile' => 'min:1|max:45',
             'notas' => 'min:1|max:45',
         ]);
-
-
     }
 }
