@@ -1,4 +1,4 @@
-#nueva implementación
+## nueva implementación
 
 instalar php y npm
 
@@ -6,12 +6,14 @@ sail up
 sail npm install "primer lanzamiento"
 sail artisan passport:install "crea el token, primer lanzamiento"
 
-#activar debbug
+##activar debbug
 cambiar la variable APP_DEBUG a true en .env y lanzar sail build
 
 sail npm run watch
 
 lanzar serve php artisan serve --host=localhost --port=8000
+
+---
 
 docker
 
