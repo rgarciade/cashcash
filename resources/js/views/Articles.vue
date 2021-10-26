@@ -244,12 +244,10 @@ export default {
 				this.closeDialog()
 			},
 			async save() {
-				debugger
 				if (this.editedIndex == -1) {
 					this.saveArticleDialog()
 				} else {
 					await this.updateArticles(this.editedItem)
-					debugger
 					await this.findArticles(this.textFinder)
 					this.closeDialog()
 				}
