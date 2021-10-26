@@ -15,6 +15,8 @@ lanzar serve php artisan serve --host=localhost --port=8000
 
 ---
 
+## otros comandos y datos relevantes
+
 docker
 
 -   cd docker-compose
