@@ -45,7 +45,7 @@
 												x-large
 												block
 												:disabled="!valid"
-												color="success"
+												color="indigo"
 												@click="loging"
 											>
 												Login

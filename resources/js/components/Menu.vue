@@ -33,23 +33,21 @@
 					</v-list-item-icon>
 
 					<v-list-item-content>
-						<v-list-item-title class="indigo--text font-weight-black">{{
+						<v-list-item-title class="indigo--text font-weight-bold">{{
 							item.title
 						}}</v-list-item-title>
 					</v-list-item-content>
 				</v-list-item>
-				<v-list-item link>
+				<v-list-item class="logout" @click="logout" @click.stop="mini = true">
 					<v-list-item-icon>
-						<v-icon color="primary">mdi-logout</v-icon>
-					</v-list-item-icon>
-					<v-list-item-content>
-						<v-list-item-title
-							class="indigo--text font-weight-black"
+						<v-icon
+							color="primary"
+							class="logout"
 							@click="logout"
 							@click.stop="mini = true"
-							>logout</v-list-item-title
+							>mdi-logout</v-icon
 						>
-					</v-list-item-content>
+					</v-list-item-icon>
 				</v-list-item>
 			</v-list>
 		</v-navigation-drawer>
