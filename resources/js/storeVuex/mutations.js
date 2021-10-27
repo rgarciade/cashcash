@@ -1,6 +1,7 @@
 const moment = require('moment')
 
 moment.locale('es')
+
 const mutations = {
 	charging(state) {
 		state.progresActive = true

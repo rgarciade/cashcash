@@ -6,7 +6,6 @@
 		<router-view class="routerView" default="{name: 'home'}" />
 	</v-app>
 </template>
-
 <script>
 export default {
 	name: 'app'
