@@ -63,6 +63,23 @@ class httpRequest {
 				})
 		})
 	}
+	static postNotHeaders(url, data) {
+		return new Promise((resolver, reject) => {
+			store.commit('charging')
+			axios
+				.post(`${this.baseUrl}/${url}`, data)
+				.then(function (response) {
+					debugger
+					manageGoodResponse(resolver, reject, response)
+				})
+				.catch(function (error) {
+					debugger
+					checkUnauthorized(error)
+					reject(error)
+					store.commit('charged')
+				})
+		})
+	}
 }
 const manageGoodResponse = (resolver, reject, response) => {
 	if (

@@ -32,9 +32,7 @@ Route::group([
         'middleware' => 'auth:api'
     ], function () {
         Route::get('logout', [AuthController::class, 'logout']);
-        Route::get('user', function (Request $request) {
-            return $request->user();
-        });
+        Route::get('user', [AuthController::class, 'user']);
     });
 });
 Route::group(['middleware' => 'auth:api'], function () {
@@ -44,7 +42,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('articles', [ArticlesController::class, 'allArticles']);
     Route::get('articles/paginate={paginate}', [ArticlesController::class, 'allArticles']);
     Route::get('articles/find={string}', [ArticlesController::class, 'findArticles']);
-    Route::middleware('auth:api')->get('articles/{id}', [ArticlesController::class, 'getArticle']);
+    Route::get('articles/{id}', [ArticlesController::class, 'getArticle']);
     Route::post('articles', [ArticlesController::class, 'newArticle']);
     Route::match(array('PUT', 'PATCH'), "articles/{id}", function (Request $request, $id) {
         $articlesController = new ArticlesController();

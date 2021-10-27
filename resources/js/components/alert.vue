@@ -4,7 +4,7 @@
 			border="left"
 			margin-left="20%"
 			:value="true"
-			:type="[`alertData.type`]"
+			:type="alertData.type"
 		>
 			{{ alertData.message }}
 		</v-alert>

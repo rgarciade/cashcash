@@ -21,7 +21,7 @@ const actions = {
 				password: data.password
 			})
 			.then((resp) => {
-				this.commit('addAccessToken', resp.data.access_token)
+				this.commit('addAccessToken', resp.data.data.access_token)
 				router.go(-1)
 				this.commit('alerts', {
 					message: 'logueado',
@@ -29,11 +29,17 @@ const actions = {
 				})
 			})
 			.catch((err) => {
-				console.log('error', err)
-				let message = err.data.msg
-					? err.data.msg
-					: 'Authenticated Error'
-				let type = err.data.msg ? 'info' : 'error'
+				let message =
+					err.data && err.data.msg
+						? err.data.msg
+						: err.response &&
+						  err.response.data &&
+						  err.response.data.message
+						? err.response.data.message
+						: null
+						? err.response.data.message
+						: 'Error'
+				let type = message ? 'info' : 'error'
 				this.commit('alerts', {
 					message,
 					type

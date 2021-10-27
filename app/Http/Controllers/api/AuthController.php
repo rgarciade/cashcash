@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\api;
 
+use App\Http\Controllers\ApiResponseController;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AuthController extends Controller
+class AuthController extends ApiResponseController
 {
     /**
      * Registro de usuario
@@ -26,10 +27,7 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => bcrypt($request->password)
         ]);
-
-        return response()->json([
-            'message' => 'Successfully created user!'
-        ], 201);
+        return $this->successResponse(null, 201, 'Successfully created user!');
     }
     public function login(Request $request)
     {
@@ -40,10 +38,9 @@ class AuthController extends Controller
 
         $credentials = request(['email', 'password']);
 
-        if (!Auth::attempt($credentials))
-            return response()->json([
-                'message' => 'Unauthorized'
-            ], 401);
+        if (!Auth::attempt($credentials)) {
+            return  $this->errorResponse(null, 400, 'Login error');
+        }
         $this->logout();
         $user = $request->user();
         $tokenResult = $user->createToken('Personal Access Token');
@@ -53,11 +50,11 @@ class AuthController extends Controller
         $token->expires_at = Carbon::now()->addWeeks(4);
 
         $token->save();
-        return response()->json([
+        return $this->successResponse([
             'access_token' => $tokenResult->accessToken,
             'token_type' => 'Bearer',
             'expires_at' => Carbon::parse($token->expires_at)->toDateTimeString()
-        ]);
+        ], 200, 'Successfully loging!');
     }
     /**
      * Cierre de sesión (anular el token)
@@ -67,10 +64,7 @@ class AuthController extends Controller
         auth()->user()->tokens->each(function ($token, $key) {
             $token->delete();
         });
-
-        return response()->json([
-            'message' => 'Successfully logged out'
-        ]);
+        return $this->successResponse(null, 200, 'Successfully logged out');
     }
 
     /**
@@ -78,6 +72,6 @@ class AuthController extends Controller
      */
     public function user(Request $request)
     {
-        return response()->json($request->user());
+        return $this->successResponse($request->user(), 200, 'user data');
     }
 }
